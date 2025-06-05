@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <title>Follow để tiếp tục</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.jsdelivr.net/npm/otplib@12.0.1/otplib.umd.min.js"></script>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
@@ -70,9 +71,10 @@
       50% { transform: scale(1.2); opacity: 0.8; }
       100% { transform: scale(1); opacity: 1; }
     }
-    .blocked, .auth-box {
+    .auth-box {
       margin-top: 30px;
-      color: #ffaaaa;
+      color: #ffffff;
+      display: none;
     }
     input[type="text"] {
       padding: 10px;
@@ -80,6 +82,7 @@
       border: none;
       margin-top: 10px;
       font-size: 16px;
+      width: 160px;
     }
     .auth-box button {
       margin-left: 10px;
@@ -106,32 +109,26 @@
     <div class="fancy-title">𝐒𝟐 𝐂𝐨𝐝𝐞 𝐓𝐚𝐞𝐦</div>
   </div>
 
-  <!-- Follow + note -->
   <p class="note">Nhấn vào đây để follow, bạn sẽ được chuyển tới trang đích</p>
   <a href="https://youtube.com/@s2code-music?si=yRR3ZsHFadw1dIY2" target="_blank" class="btn" id="followBtn" onclick="startCountdown()">▶️ Follow YouTube</a>
 
   <div class="countdown" id="countdown">10</div>
   <div class="note" id="note" style="display: none;">⏳ Đang chuyển hướng...</div>
 
-  <!-- Nếu quá giới hạn -->
-  <div class="blocked" id="blocked" style="display:none;">
-    🚫 Bạn đã vượt quá số lần truy cập.
-  </div>
-
-  <!-- Form nhập mã unlock -->
-  <div class="auth-box" id="authBox" style="display:none;">
-    <p>🔐 Nhập mã xác thực từ app để mở khoá:</p>
+  <!-- Khối xác thực OTP nếu vượt quá số lượt -->
+  <div class="auth-box" id="authBox">
+    <p>🔐 Bạn đã vượt quá số lần truy cập. Nhập mã xác thực từ Authenticator để mở khoá:</p>
     <input type="text" id="authCode" placeholder="Nhập mã 6 số" maxlength="6" />
     <button onclick="checkCode()">Mở khóa</button>
     <p id="authResult" style="margin-top:10px;"></p>
   </div>
 
   <footer>
-    🅒 𝗖𝗼𝗽𝘆𝗿𝗶𝗴𝗵𝘁 𝗦𝟮 𝗖𝗼𝗱𝗲 𝗧𝐚𝐞𝐦 𝗔𝗹𝗹 𝗿𝗶𝗴𝗵𝘁𝘀 𝗿𝗲𝘀𝗲𝗿𝘃𝗲𝗱.
+    🅒 𝗖𝗼𝗽𝘆𝗿𝗶𝗴𝗵𝘁 𝗦𝟮 𝗖𝗼𝗱𝗲 𝗧𝐚𝐞𝗺 𝗔𝗹𝗹 𝗿𝗶𝗴𝗵𝘁𝘀 𝗿𝗲𝘀𝗲𝗿𝘃𝗲𝗱.
   </footer>
 
   <script>
-    // Cookie utils
+    // Cookie helpers
     function setCookie(name, value, days) {
       const d = new Date();
       d.setTime(d.getTime() + (days*24*60*60*1000));
@@ -145,7 +142,7 @@
       return null;
     }
 
-    // Access check
+    // Access limit
     const maxAccess = 3;
     let accessCount = parseInt(getCookie("s2code_access_count") || "0");
 
@@ -153,14 +150,13 @@
       document.getElementById("followBtn").style.display = "none";
       document.getElementById("countdown").style.display = "none";
       document.getElementById("note").style.display = "none";
-      document.getElementById("blocked").style.display = "block";
       document.getElementById("authBox").style.display = "block";
     } else {
       accessCount++;
       setCookie("s2code_access_count", accessCount, 7);
     }
 
-    // Countdown
+    // Countdown logic
     function startCountdown() {
       const countdown = document.getElementById('countdown');
       const note = document.getElementById('note');
@@ -178,24 +174,15 @@
       }, 1000);
     }
 
-    // Authenticator-style code logic
-    const codes = [
-      "666999", "000888", "777999", "666222",
-      "555888", "000000", "111666"
-    ];
-
-    function getCurrentCode() {
-      const index = Math.floor(new Date().getMinutes() % codes.length);
-      return codes[index];
-    }
-
+    // OTP Check with TOTP (otplib)
     function checkCode() {
-      const input = document.getElementById("authCode").value.trim();
-      const current = getCurrentCode();
+      const userCode = document.getElementById("authCode").value.trim();
       const result = document.getElementById("authResult");
+      const secret = "JBSWY3DPEHPK3PXP"; // Your private TOTP key
 
-      if (input === current) {
-        result.innerText = "✅ Mở khóa thành công! Đang chuyển...";
+      const isValid = otplib.authenticator.check(userCode, secret);
+      if (isValid) {
+        result.innerText = "✅ Mã hợp lệ! Đang mở khoá...";
         setTimeout(() => {
           window.location.href = "https://voz.ee/s/TycfcCuvX";
         }, 2000);
