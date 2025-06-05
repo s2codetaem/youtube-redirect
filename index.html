@@ -4,123 +4,154 @@
   <meta charset="UTF-8">
   <title>Follow để tiếp tục</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <!-- Import nền động dạng matrix-style -->
   <style>
-    html, body {
-      margin: 0;
-      padding: 0;
-      height: 100%;
-      font-family: 'Courier New', monospace;
-      background: black;
-      color: #00ffcc;
-      overflow: hidden;
-    }
-
-    canvas {
-      position: fixed;
-      top: 0;
-      left: 0;
-      z-index: -1;
-    }
-
-    .container {
-      position: relative;
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      height: 100vh;
+      background: linear-gradient(-45deg, #1f1c2c, #928DAB, #2C3E50, #4CA1AF);
+      background-size: 400% 400%;
+      animation: gradientBG 15s ease infinite;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: center;
       text-align: center;
-      top: 20%;
+      padding: 30px;
     }
-
-    h1 {
+    @keyframes gradientBG {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+    .logo {
+      max-width: 120px;
+      margin-bottom: 10px;
+    }
+    .title {
       font-size: 28px;
-      margin-bottom: 20px;
+      margin-bottom: 10px;
     }
-
+    .fancy-title {
+      font-size: 32px;
+      margin-bottom: 30px;
+      font-family: 'Courier New', monospace;
+    }
     .btn {
-      background-color: #FF0000;
-      color: white;
+      background: #FF0000;
       padding: 15px 30px;
-      border: none;
+      color: white;
       font-size: 18px;
+      border: none;
       border-radius: 8px;
-      cursor: pointer;
       text-decoration: none;
-      transition: background-color 0.3s;
+      transition: 0.3s;
+      box-shadow: 0 4px 15px rgba(255,0,0,0.5);
     }
-
     .btn:hover {
-      background-color: #cc0000;
+      background: #cc0000;
+      transform: scale(1.05);
     }
-
     .countdown {
-      margin-top: 30px;
-      font-size: 24px;
+      font-size: 64px;
+      font-weight: bold;
+      margin-top: 40px;
+      animation: pulse 1s ease-in-out infinite;
       display: none;
+    }
+    @keyframes pulse {
+      0% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.2); opacity: 0.8; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+    .note { margin-top: 20px; font-size: 16px; color: #e0e0e0; }
+    footer {
+      font-size: 14px;
+      color: #cccccc;
+      margin-top: 50px;
+      padding-top: 30px;
+    }
+    .blocked {
+      font-size: 20px;
+      color: #ffaaaa;
+      margin-top: 40px;
+      font-weight: bold;
     }
   </style>
 </head>
 <body>
 
-<canvas id="matrixCanvas"></canvas>
+  <!-- Header -->
+  <div>
+    <img src="https://i.imgur.com/YOUR_LOGO.png" alt="S2 Logo" class="logo" />
+    <div class="title">Chào mừng bạn đến với</div>
+    <div class="fancy-title">𝐒𝟐 𝐂𝐨𝐝𝐞 𝐓𝐚𝐞𝐦</div>
+  </div>
 
-<div class="container">
-  <h1>👨‍💻 Nhấn Follow Youtobe để tiếp tục tới trang đích </h1>
-  <a href="https://youtube.com/@s2code-music?si=yRR3ZsHFadw1dIY2" target="_blank" class="btn" onclick="startCountdown()">▶️ Follow YouTube</a>
-  <div class="countdown" id="countdown">Đang chuyển trong <span id="time">10</span> giây...</div>
-  <a href="https://t.me/S2codetaem48" target="_blank" class="btn" onclick="startCountdown()">▶️ Tham gia kênh S2codetaem </a>
-</div>
+  <!-- Nút Follow -->
+  <a href="https://youtube.com/@s2code-music?si=yRR3ZsHFadw1dIY2" target="_blank" class="btn" id="followBtn" onclick="startCountdown()">▶️ Follow YouTube</a>
 
-<script>
-  // Countdown logic
-  function startCountdown() {
-    const countdownDiv = document.getElementById('countdown');
-    const timeSpan = document.getElementById('time');
-    countdownDiv.style.display = 'block';
+  <!-- Countdown -->
+  <div class="countdown" id="countdown">10</div>
+  <div class="note" id="note" style="display: none;">⏳ Đang chuyển hướng...</div>
 
-    let seconds = 10;
-    const interval = setInterval(() => {
-      seconds--;
-      timeSpan.innerText = seconds;
-      if (seconds === 0) {
-        clearInterval(interval);
-        window.location.href = "https://voz.ee/s/TycfcCuvX"; // chuyển tới link đích
-      }
-    }, 1000);
-  }
+  <!-- Thông báo quá giới hạn -->
+  <div class="blocked" id="blocked" style="display:none;">
+    🚫 Bạn đã vượt quá số lần tham gia.<br>Vui lòng liên hệ admin để nhận link mới.
+  </div>
 
-  // Matrix background effect
-  const canvas = document.getElementById('matrixCanvas');
-  const ctx = canvas.getContext('2d');
-  canvas.height = window.innerHeight;
-  canvas.width = window.innerWidth;
+  <footer>
+    🅒 𝗖𝗼𝗽𝘆𝗿𝗶𝗴𝗵𝘁 𝗦𝟮 𝗖𝗼𝗱𝗲 𝗧𝗮𝐞𝗺 𝗔𝗹𝗹 𝗿𝗶𝗴𝗵𝘁𝘀 𝗿𝗲𝘀𝗲𝗿𝘃𝗲𝗱.
+  </footer>
 
-  const matrix = "01";
-  const fontSize = 14;
-  const columns = canvas.width / fontSize;
-  const drops = [];
-
-  for (let i = 0; i < columns; i++) {
-    drops[i] = 1;
-  }
-
-  function drawMatrix() {
-    ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-    ctx.fillStyle = "#00ffcc";
-    ctx.font = fontSize + "px Courier";
-
-    for (let i = 0; i < drops.length; i++) {
-      const text = matrix[Math.floor(Math.random() * matrix.length)];
-      ctx.fillText(text, i * fontSize, drops[i] * fontSize);
-
-      if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
-        drops[i] = 0;
-      }
-
-      drops[i]++;
+  <script>
+    // Cookie utils
+    function setCookie(name, value, days) {
+      const d = new Date();
+      d.setTime(d.getTime() + (days*24*60*60*1000));
+      document.cookie = `${name}=${value};expires=${d.toUTCString()};path=/`;
     }
-  }
 
-  setInterval(drawMatrix, 33);
-</script>
+    function getCookie(name) {
+      const value = "; " + document.cookie;
+      const parts = value.split("; " + name + "=");
+      if (parts.length === 2) return parts.pop().split(";").shift();
+      return null;
+    }
+
+    // Check access limit
+    const maxAccess = 3;
+    let accessCount = parseInt(getCookie("s2code_access_count") || "0");
+
+    if (accessCount >= maxAccess) {
+      document.getElementById("followBtn").style.display = "none";
+      document.getElementById("blocked").style.display = "block";
+    } else {
+      accessCount++;
+      setCookie("s2code_access_count", accessCount, 7); // lưu 7 ngày
+    }
+
+    // Countdown
+    function startCountdown() {
+      const countdown = document.getElementById('countdown');
+      const note = document.getElementById('note');
+      countdown.style.display = 'block';
+      note.style.display = 'block';
+
+      let time = 10;
+      countdown.innerText = time;
+
+      const interval = setInterval(() => {
+        time--;
+        countdown.innerText = time;
+        if (time === 0) {
+          clearInterval(interval);
+          window.location.href = "https://voz.ee/s/TycfcCuvX";
+        }
+      }, 1000);
+    }
+  </script>
 
 </body>
 </html>
