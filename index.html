@@ -2,57 +2,124 @@
 <html lang="vi">
 <head>
   <meta charset="UTF-8">
-  <title>Nhấn Follow để tiếp tục</title>
+  <title>Follow để tiếp tục</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Import nền động dạng matrix-style -->
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      text-align: center;
-      background-color: #f1f1f1;
-      padding: 40px;
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      font-family: 'Courier New', monospace;
+      background: black;
+      color: #00ffcc;
+      overflow: hidden;
     }
-    h2 {
+
+    canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: -1;
+    }
+
+    .container {
+      position: relative;
+      text-align: center;
+      top: 20%;
+    }
+
+    h1 {
+      font-size: 28px;
       margin-bottom: 20px;
     }
-    .btn-follow {
-      display: block;
-      margin: 15px auto;
-      padding: 12px 24px;
-      font-size: 18px;
-      border: none;
-      border-radius: 6px;
-      text-decoration: none;
-      color: #fff;
-      width: 250px;
-    }
-    .youtube { background-color: #FF0000; }
-    .facebook { background-color: #1877F2; }
-    .tiktok { background-color: #000000; }
 
-    .note {
+    .btn {
+      background-color: #FF0000;
+      color: white;
+      padding: 15px 30px;
+      border: none;
+      font-size: 18px;
+      border-radius: 8px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background-color 0.3s;
+    }
+
+    .btn:hover {
+      background-color: #cc0000;
+    }
+
+    .countdown {
       margin-top: 30px;
-      font-style: italic;
-      color: #333;
+      font-size: 24px;
+      display: none;
     }
   </style>
 </head>
 <body>
 
-  <h2>🎯 Hãy chọn nền tảng để nhấn Follow</h2>
-  <p>📌 Sau khi nhấn, bạn sẽ được tự động chuyển tới trang đích trong vài giây.</p>
+<canvas id="matrixCanvas"></canvas>
 
-  <!-- Nút YouTube -->
-  <a class="btn-follow youtube" href="https://youtube.com/@s2code-music?si=UF2raNbfB7bCsSZH" target="_blank" onclick="redirect()">▶️ Follow YouTube</a>
+<div class="container">
+  <h1>👨‍💻 Nhấn Follow để tiếp tục hành trình</h1>
+  <a href="https://youtube.com/@s2code-music?si=yRR3ZsHFadw1dIY2" target="_blank" class="btn" onclick="startCountdown()">▶️ Follow YouTube</a>
+  <div class="countdown" id="countdown">Đang chuyển trong <span id="time">10</span> giây...</div>
+</div>
 
-  <p class="note">⏳ Hệ thống sẽ tự động chuyển sau khi bạn nhấn Follow...</p>
+<script>
+  // Countdown logic
+  function startCountdown() {
+    const countdownDiv = document.getElementById('countdown');
+    const timeSpan = document.getElementById('time');
+    countdownDiv.style.display = 'block';
 
-  <script>
-    function redirect() {
-      setTimeout(function () {
-        window.location.href = "https://voz.ee/s/TycfcCuvX"; // <-- Sửa thành link đích của bạn
-      }, 8000); // 8000 = 8 giây, có thể đổi tùy ý
+    let seconds = 10;
+    const interval = setInterval(() => {
+      seconds--;
+      timeSpan.innerText = seconds;
+      if (seconds === 0) {
+        clearInterval(interval);
+        window.location.href = "https://voz.ee/s/TycfcCuvX"; // chuyển tới link đích
+      }
+    }, 1000);
+  }
+
+  // Matrix background effect
+  const canvas = document.getElementById('matrixCanvas');
+  const ctx = canvas.getContext('2d');
+  canvas.height = window.innerHeight;
+  canvas.width = window.innerWidth;
+
+  const matrix = "01";
+  const fontSize = 14;
+  const columns = canvas.width / fontSize;
+  const drops = [];
+
+  for (let i = 0; i < columns; i++) {
+    drops[i] = 1;
+  }
+
+  function drawMatrix() {
+    ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = "#00ffcc";
+    ctx.font = fontSize + "px Courier";
+
+    for (let i = 0; i < drops.length; i++) {
+      const text = matrix[Math.floor(Math.random() * matrix.length)];
+      ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+
+      if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+        drops[i] = 0;
+      }
+
+      drops[i]++;
     }
-  </script>
+  }
+
+  setInterval(drawMatrix, 33);
+</script>
 
 </body>
 </html>
