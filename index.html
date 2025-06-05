@@ -35,7 +35,7 @@
     }
     .fancy-title {
       font-size: 32px;
-      margin-bottom: 30px;
+      margin-bottom: 20px;
       font-family: 'Courier New', monospace;
     }
     .btn {
@@ -53,6 +53,11 @@
       background: #cc0000;
       transform: scale(1.05);
     }
+    .note {
+      margin-top: 10px;
+      font-size: 16px;
+      color: #ffe;
+    }
     .countdown {
       font-size: 64px;
       font-weight: bold;
@@ -65,44 +70,64 @@
       50% { transform: scale(1.2); opacity: 0.8; }
       100% { transform: scale(1); opacity: 1; }
     }
-    .note { margin-top: 20px; font-size: 16px; color: #e0e0e0; }
+    .blocked, .auth-box {
+      margin-top: 30px;
+      color: #ffaaaa;
+    }
+    input[type="text"] {
+      padding: 10px;
+      border-radius: 5px;
+      border: none;
+      margin-top: 10px;
+      font-size: 16px;
+    }
+    .auth-box button {
+      margin-left: 10px;
+      padding: 10px 15px;
+      font-size: 16px;
+      border: none;
+      border-radius: 5px;
+      background: #00cc66;
+      color: white;
+    }
     footer {
       font-size: 14px;
       color: #cccccc;
       margin-top: 50px;
       padding-top: 30px;
     }
-    .blocked {
-      font-size: 20px;
-      color: #ffaaaa;
-      margin-top: 40px;
-      font-weight: bold;
-    }
   </style>
 </head>
 <body>
 
-  <!-- Header -->
   <div>
     <img src="https://i.imgur.com/LbrW9NC.jpeg" alt="S2 Logo" class="logo" />
     <div class="title">Chào mừng bạn đến với</div>
     <div class="fancy-title">𝐒𝟐 𝐂𝐨𝐝𝐞 𝐓𝐚𝐞𝐦</div>
   </div>
 
-  <!-- Nút Follow -->
+  <!-- Follow + note -->
+  <p class="note">Nhấn vào đây để follow, bạn sẽ được chuyển tới trang đích</p>
   <a href="https://youtube.com/@s2code-music?si=yRR3ZsHFadw1dIY2" target="_blank" class="btn" id="followBtn" onclick="startCountdown()">▶️ Follow YouTube</a>
 
-  <!-- Countdown -->
   <div class="countdown" id="countdown">10</div>
   <div class="note" id="note" style="display: none;">⏳ Đang chuyển hướng...</div>
 
-  <!-- Thông báo quá giới hạn -->
+  <!-- Nếu quá giới hạn -->
   <div class="blocked" id="blocked" style="display:none;">
-    🚫 Bạn đã vượt quá số lần tham gia.<br>Vui lòng liên hệ admin để nhận link mới.
+    🚫 Bạn đã vượt quá số lần truy cập.
+  </div>
+
+  <!-- Form nhập mã unlock -->
+  <div class="auth-box" id="authBox" style="display:none;">
+    <p>🔐 Nhập mã xác thực từ app để mở khoá:</p>
+    <input type="text" id="authCode" placeholder="Nhập mã 6 số" maxlength="6" />
+    <button onclick="checkCode()">Mở khóa</button>
+    <p id="authResult" style="margin-top:10px;"></p>
   </div>
 
   <footer>
-    🅒 𝗖𝗼𝗽𝘆𝗿𝗶𝗴𝗵𝘁 𝗦𝟮 𝗖𝗼𝗱𝗲 𝗧𝗮𝐞𝗺 𝗔𝗹𝗹 𝗿𝗶𝗴𝗵𝘁𝘀 𝗿𝗲𝘀𝗲𝗿𝘃𝗲𝗱.
+    🅒 𝗖𝗼𝗽𝘆𝗿𝗶𝗴𝗵𝘁 𝗦𝟮 𝗖𝗼𝗱𝗲 𝗧𝐚𝐞𝐦 𝗔𝗹𝗹 𝗿𝗶𝗴𝗵𝘁𝘀 𝗿𝗲𝘀𝗲𝗿𝘃𝗲𝗱.
   </footer>
 
   <script>
@@ -120,16 +145,19 @@
       return null;
     }
 
-    // Check access limit
+    // Access check
     const maxAccess = 3;
     let accessCount = parseInt(getCookie("s2code_access_count") || "0");
 
     if (accessCount >= maxAccess) {
       document.getElementById("followBtn").style.display = "none";
+      document.getElementById("countdown").style.display = "none";
+      document.getElementById("note").style.display = "none";
       document.getElementById("blocked").style.display = "block";
+      document.getElementById("authBox").style.display = "block";
     } else {
       accessCount++;
-      setCookie("s2code_access_count", accessCount, 7); // lưu 7 ngày
+      setCookie("s2code_access_count", accessCount, 7);
     }
 
     // Countdown
@@ -138,10 +166,8 @@
       const note = document.getElementById('note');
       countdown.style.display = 'block';
       note.style.display = 'block';
-
       let time = 10;
       countdown.innerText = time;
-
       const interval = setInterval(() => {
         time--;
         countdown.innerText = time;
@@ -150,6 +176,32 @@
           window.location.href = "https://voz.ee/s/TycfcCuvX";
         }
       }, 1000);
+    }
+
+    // Authenticator-style code logic
+    const codes = [
+      "666999", "000888", "777999", "666222",
+      "555888", "000000", "111666"
+    ];
+
+    function getCurrentCode() {
+      const index = Math.floor(new Date().getMinutes() % codes.length);
+      return codes[index];
+    }
+
+    function checkCode() {
+      const input = document.getElementById("authCode").value.trim();
+      const current = getCurrentCode();
+      const result = document.getElementById("authResult");
+
+      if (input === current) {
+        result.innerText = "✅ Mở khóa thành công! Đang chuyển...";
+        setTimeout(() => {
+          window.location.href = "https://voz.ee/s/TycfcCuvX";
+        }, 2000);
+      } else {
+        result.innerText = "❌ Mã không đúng. Vui lòng thử lại.";
+      }
     }
   </script>
 
