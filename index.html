@@ -2,7 +2,7 @@
 <html lang="vi">
 <head>
   <meta charset="UTF-8">
-  <title>Follow để tiếp tục</title>
+  <title>Xác thực OTP - S2CodeTaem</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script src="https://cdn.jsdelivr.net/npm/otplib@12.0.1/otplib.umd.min.js"></script>
   <style>
@@ -109,15 +109,14 @@
     <div class="fancy-title">𝐒𝟐 𝐂𝐨𝐝𝐞 𝐓𝐚𝐞𝐦</div>
   </div>
 
-  <p class="note">Nhấn vào đây để follow, bạn sẽ được chuyển tới trang đích</p>
+  <p class="note" id="flowNote">Nhấn vào đây để follow, bạn sẽ được chuyển tới trang đích</p>
   <a href="https://youtube.com/@s2code-music?si=yRR3ZsHFadw1dIY2" target="_blank" class="btn" id="followBtn" onclick="startCountdown()">▶️ Follow YouTube</a>
 
   <div class="countdown" id="countdown">10</div>
   <div class="note" id="note" style="display: none;">⏳ Đang chuyển hướng...</div>
 
-  <!-- Khối xác thực OTP nếu vượt quá số lượt -->
   <div class="auth-box" id="authBox">
-    <p>🔐 Bạn đã vượt quá số lần truy cập. Nhập mã xác thực từ Authenticator để mở khoá:</p>
+    <p>🔐 Bạn đã vượt quá số lần truy cập. Nhập mã xác thực từ Authenticator để quay lại trang chính:</p>
     <input type="text" id="authCode" placeholder="Nhập mã 6 số" maxlength="6" />
     <button onclick="checkCode()">Mở khóa</button>
     <p id="authResult" style="margin-top:10px;"></p>
@@ -128,7 +127,9 @@
   </footer>
 
   <script>
-    // Cookie helpers
+    const secret = "JBSWY3DPEHPK3PXP";
+    const maxAccess = 3;
+
     function setCookie(name, value, days) {
       const d = new Date();
       d.setTime(d.getTime() + (days*24*60*60*1000));
@@ -142,21 +143,20 @@
       return null;
     }
 
-    // Access limit
-    const maxAccess = 3;
+    // Access tracking
     let accessCount = parseInt(getCookie("s2code_access_count") || "0");
 
     if (accessCount >= maxAccess) {
       document.getElementById("followBtn").style.display = "none";
       document.getElementById("countdown").style.display = "none";
       document.getElementById("note").style.display = "none";
+      document.getElementById("flowNote").style.display = "none";
       document.getElementById("authBox").style.display = "block";
     } else {
       accessCount++;
       setCookie("s2code_access_count", accessCount, 7);
     }
 
-    // Countdown logic
     function startCountdown() {
       const countdown = document.getElementById('countdown');
       const note = document.getElementById('note');
@@ -174,20 +174,24 @@
       }, 1000);
     }
 
-    // OTP Check with TOTP (otplib)
     function checkCode() {
-      const userCode = document.getElementById("authCode").value.trim();
+      const input = document.getElementById("authCode").value.trim();
       const result = document.getElementById("authResult");
-      const secret = "JBSWY3DPEHPK3PXP"; // Your private TOTP key
 
-      const isValid = otplib.authenticator.check(userCode, secret);
-      if (isValid) {
-        result.innerText = "✅ Mã hợp lệ! Đang mở khoá...";
+      const delta = otplib.authenticator.checkDelta(input, secret, { window: 0 });
+
+      if (delta === null) {
+        result.innerText = "❌ Mã không đúng hoặc đã hết hạn.";
+      } else if (delta === 0) {
+        result.innerText = "✅ Mã hợp lệ! Đang mở khoá lại trang chính...";
         setTimeout(() => {
-          window.location.href = "https://voz.ee/s/TycfcCuvX";
-        }, 2000);
+          // Show back the follow section
+          document.getElementById("authBox").style.display = "none";
+          document.getElementById("followBtn").style.display = "inline-block";
+          document.getElementById("flowNote").style.display = "block";
+        }, 1500);
       } else {
-        result.innerText = "❌ Mã không đúng. Vui lòng thử lại.";
+        result.innerText = "⚠️ Mã đúng nhưng đã hết hạn. Vui lòng dùng mã mới.";
       }
     }
   </script>
