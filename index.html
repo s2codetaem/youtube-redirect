@@ -2,19 +2,57 @@
 <html lang="vi">
 <head>
   <meta charset="UTF-8">
-  <title>Xem video trước khi chuyển hướng</title>
+  <title>Nhấn Follow để tiếp tục</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <script>
-    setTimeout(function () {
-      window.location.href = "https://youtu.be/qeeKcHvE7cE?si=nRSAsgZCXG7aldjr"; // 🔁 Thay bằng link thật
-    }, 10000);
-  </script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      background-color: #f1f1f1;
+      padding: 40px;
+    }
+    h2 {
+      margin-bottom: 20px;
+    }
+    .btn-follow {
+      display: block;
+      margin: 15px auto;
+      padding: 12px 24px;
+      font-size: 18px;
+      border: none;
+      border-radius: 6px;
+      text-decoration: none;
+      color: #fff;
+      width: 250px;
+    }
+    .youtube { background-color: #FF0000; }
+    .facebook { background-color: #1877F2; }
+    .tiktok { background-color: #000000; }
+
+    .note {
+      margin-top: 30px;
+      font-style: italic;
+      color: #333;
+    }
+  </style>
 </head>
-<body style="text-align:center; padding:20px;">
-  <h2>🎬 Xem video này trước khi tiếp tục</h2>
-  <iframe width="560" height="315" src="https://www.youtube.com/embed/VIDEO_ID?autoplay=1"
-          frameborder="0" allow="autoplay; encrypted-media" allowfullscreen>
-  </iframe>
-  <p>⏳ Bạn sẽ được chuyển sau 10 giây...</p>
+<body>
+
+  <h2>🎯 Hãy chọn nền tảng để nhấn Follow</h2>
+  <p>📌 Sau khi nhấn, bạn sẽ được tự động chuyển tới trang đích trong vài giây.</p>
+
+  <!-- Nút YouTube -->
+  <a class="btn-follow youtube" href="https://youtube.com/@s2code-music?si=UF2raNbfB7bCsSZH" target="_blank" onclick="redirect()">▶️ Follow YouTube</a>
+
+  <p class="note">⏳ Hệ thống sẽ tự động chuyển sau khi bạn nhấn Follow...</p>
+
+  <script>
+    function redirect() {
+      setTimeout(function () {
+        window.location.href = "https://voz.ee/s/TycfcCuvX"; // <-- Sửa thành link đích của bạn
+      }, 8000); // 8000 = 8 giây, có thể đổi tùy ý
+    }
+  </script>
+
 </body>
 </html>
