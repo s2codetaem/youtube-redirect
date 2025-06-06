@@ -1,25 +1,26 @@
+// server.js (Node.js backend)
 const express = require('express');
-const cors = require('cors');
 const bodyParser = require('body-parser');
-const otplib = require('otplib');
+const cors = require('cors');
 
 const app = express();
+const PORT = 6969;
+
 app.use(cors());
 app.use(bodyParser.json());
 
-const SECRET = 'JBSWY3DPEHPK3PXP';
+// Mã xác minh cố định
+const FIXED_PASSCODE = "s2taem2025";
 
-app.post('/verify-otp', (req, res) => {
+app.post('/verify-passcode', (req, res) => {
   const { code } = req.body;
-  const isValid = otplib.authenticator.check(code, SECRET);
-  if (isValid) {
+  if (code === FIXED_PASSCODE) {
     res.json({ success: true });
   } else {
-    res.status(401).json({ success: false, message: 'Mã không đúng hoặc đã hết hạn.' });
+    res.json({ success: false, message: 'Mã sai, vui lòng liên hệ admin!' });
   }
 });
 
-const PORT = 6969;
 app.listen(PORT, '0.0.0.0', () => {
-  console.log(`✅ Server OTP đang chạy tại http://0.0.0.0:${PORT}`);
+  console.log(`✅ Server đang chạy tại http://0.0.0.0:${PORT}`);
 });

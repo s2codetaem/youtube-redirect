@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Nhập mã xác minh</title>
+</head>
+<body>
+  <h1>🔐 Xác minh truy cập</h1>
+  <input type="text" id="passcode" placeholder="Nhập mã xác thực..." />
+  <button onclick="verifyPasscode()">Mở khoá</button>
+  <p id="verifyStatus" style="color:red;"></p>
+
+  <script>
+    function verifyPasscode() {
+      const code = document.getElementById('passcode').value;
+      fetch('/verify-passcode', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ code })
+      })
+      .then(res => res.json())
+      .then(data => {
+        if (data.success) {
+          document.cookie = "access=granted;max-age=259200";
+          window.location.href = "/";
+        } else {
+          document.getElementById("verifyStatus").innerText = data.message;
+        }
+      });
+    }
+  </script>
+</body>
+</html>
