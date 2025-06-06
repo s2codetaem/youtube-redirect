@@ -1,32 +1,255 @@
-particlesJS("particles-js", {
-  particles: {
-    number: { value: 80, density: { enable: true, value_area: 800 } },
-    color: { value: ["#39ff14", "#00f0ff", "#ff00ff"] },
-    shape: { type: "circle" },
-    opacity: { value: 0.5, random: true },
-    size: { value: 3, random: true },
-    line_linked: { enable: true, distance: 150, color: "#39ff14", opacity: 0.4, width: 1 },
-    move: { enable: true, speed: 2, direction: "none", random: true }
-  },
-  interactivity: {
-    detect_on: "canvas",
-    events: { onhover: { enable: true, mode: "repulse" }, onclick: { enable: true, mode: "push" } },
-    modes: { repulse: { distance: 100, duration: 0.4 }, push: { particles_nb: 4 } }
-  }
-});
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>S2 Code Team - Tạo Chuyển Hướng</title>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-function generateRedirect() {
-  const destinationUrl = document.getElementById("destinationUrl").value.trim();
-  const generatedUrlDiv = document.getElementById("generatedUrl");
+    body {
+      min-height: 100vh;
+      background: #0d1117;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      font-family: 'JetBrains Mono', monospace;
+      color: #c9d1d9;
+      overflow-x: hidden;
+    }
 
-  if (!destinationUrl || !destinationUrl.startsWith("http")) {
-    generatedUrlDiv.innerText = "❌ Vui lòng nhập URL hợp lệ (bắt đầu bằng http hoặc https)";
-    return;
-  }
+    #particles-js {
+      position: fixed;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      background: linear-gradient(135deg, #0d1117, #1a2332);
+    }
 
-  // Giả lập tạo URL động (thay bằng API thật nếu có)
-  const uniqueId = Math.random().toString(36).substring(2, 10);
-  const redirectUrl = `${window.location.origin}/flow.html?url=${encodeURIComponent(destinationUrl)}&id=${uniqueId}`;
-  
-  generatedUrlDiv.innerHTML = `✅ URL chuyển hướng: <a href="${redirectUrl}" target="_blank">${redirectUrl}</a>`;
-}
+    header {
+      padding: 20px;
+      text-align: center;
+      width: 100%;
+    }
+
+    .logo {
+      font-size: 3.5em;
+      font-weight: 700;
+      background: linear-gradient(90deg, #39ff14, #00f0ff, #ff00ff, #ff9500);
+      background-size: 400%;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: neonGlow 4s linear infinite;
+      text-shadow: 0 0 20px rgba(57, 255, 20, 0.5);
+    }
+
+    @keyframes neonGlow {
+      0% { background-position: 0%; }
+      100% { background-position: 400%; }
+    }
+
+    .container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      padding: 20px;
+      max-width: 600px;
+      margin: 20px;
+    }
+
+    h2 {
+      font-size: 1.8em;
+      margin-bottom: 20px;
+      color: #39ff14;
+      text-shadow: 0 0 10px rgba(57, 255, 20, 0.3);
+      animation: fadeIn 1s ease-in;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .btn {
+      background: linear-gradient(45deg, #39ff14, #00f0ff);
+      padding: 15px 40px;
+      color: #0d1117;
+      font-size: 1.2em;
+      font-weight: 700;
+      border: none;
+      border-radius: 50px;
+      text-decoration: none;
+      transition: transform 0.3s, box-shadow 0.3s;
+      box-shadow: 0 5px 15px rgba(57, 255, 20, 0.5);
+      position: relative;
+      overflow: hidden;
+      width: 100%;
+      margin-bottom: 15px;
+    }
+
+    .btn::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+      transition: 0.5s;
+    }
+
+    .btn:hover::before {
+      left: 100%;
+    }
+
+    .btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 20px rgba(57, 255, 20, 0.7);
+    }
+
+    input {
+      padding: 12px;
+      border: none;
+      border-radius: 8px;
+      font-size: 1em;
+      background: #21262d;
+      color: #c9d1d9;
+      width: 100%;
+      margin-bottom: 15px;
+    }
+
+    input:focus {
+      outline: none;
+      box-shadow: 0 0 10px rgba(57, 255, 20, 0.5);
+    }
+
+    .status {
+      margin-top: 10px;
+      font-size: 1em;
+      color: #ff5555;
+    }
+
+    .generated-url {
+      margin-top: 20px;
+      background: #21262d;
+      padding: 10px;
+      border-radius: 8px;
+      word-break: break-all;
+      color: #39ff14;
+    }
+
+    .countdown {
+      font-size: 4em;
+      font-weight: 700;
+      color: #00f0ff;
+      margin-top: 30px;
+      animation: pulse 1.5s ease-in-out infinite;
+      display: none;
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.1); opacity: 0.8; }
+    }
+
+    .note {
+      margin-top: 15px;
+      font-size: 1em;
+      color: #8b949e;
+      display: none;
+    }
+
+    .otp-box {
+      margin-top: 30px;
+      display: none;
+      background: rgba(22, 27, 34, 0.8);
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+      animation: slideIn 0.5s ease;
+      width: 100%;
+    }
+
+    @keyframes slideIn {
+      from { opacity: 0; transform: translateY(50px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    footer {
+      position: absolute;
+      bottom: 20px;
+      font-size: 0.9em;
+      color: #8b949e;
+    }
+
+    footer a {
+      color: #39ff14;
+      text-decoration: none;
+    }
+
+    footer a:hover {
+      color: #00f0ff;
+    }
+  </style>
+</head>
+<body>
+  <div id="particles-js"></div>
+  <header>
+    <h1 class="logo">S2 Code Team</h1>
+  </header>
+
+  <div class="container">
+    <h2>💻 Tạo Trang Chuyển Hướng</h2>
+    <a href="flow.html" class="btn">Đi đến trang Flow mẫu</a>
+    <input type="text" id="destinationUrl" placeholder="Nhập URL đích (VD: https://voz.ee/s/TycfcCuvX)" />
+    <button class="btn" onclick="generateRedirect()">Tạo URL Chuyển Hướng</button>
+    <div class="generated-url" id="generatedUrl"></div>
+  </div>
+
+  <footer>
+    © 2025 S2 Code Team | <a href="https://x.ai/grok">Powered by xAI</a>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+  <script>
+    particlesJS("particles-js", {
+      particles: {
+        number: { value: 80, density: { enable: true, value_area: 800 } },
+        color: { value: ["#39ff14", "#00f0ff", "#ff00ff"] },
+        shape: { type: "circle" },
+        opacity: { value: 0.5, random: true },
+        size: { value: 3, random: true },
+        line_linked: { enable: true, distance: 150, color: "#39ff14", opacity: 0.4, width: 1 },
+        move: { enable: true, speed: 2, direction: "none", random: true }
+      },
+      interactivity: {
+        detect_on: "canvas",
+        events: { onhover: { enable: true, mode: "repulse" }, onclick: { enable: true, mode: "push" } },
+        modes: { repulse: { distance: 100, duration: 0.4 }, push: { particles_nb: 4 } }
+      }
+    });
+
+    function generateRedirect() {
+      const destinationUrl = document.getElementById("destinationUrl").value.trim();
+      const generatedUrlDiv = document.getElementById("generatedUrl");
+
+      if (!destinationUrl || !destinationUrl.startsWith("http")) {
+        generatedUrlDiv.innerText = "❌ Vui lòng nhập URL hợp lệ (bắt đầu bằng http hoặc https)";
+        return;
+      }
+
+      // Giả lập tạo URL động (thay bằng API thật nếu có)
+      const uniqueId = Math.random().toString(36).substring(2, 10);
+      const redirectUrl = `${window.location.origin}/flow.html?url=${encodeURIComponent(destinationUrl)}&id=${uniqueId}`;
+      
+      generatedUrlDiv.innerHTML = `✅ URL chuyển hướng: <a href="${redirectUrl}" target="_blank">${redirectUrl}</a>`;
+    }
+  </script>
+</body>
+</html>
