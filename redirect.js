@@ -26,9 +26,9 @@ function handleReturnFromFlow() {
 
 function startCountdown() {
   let counter = 10;
-  const followButton = document.getElementById('followButton');
-  followButton.disabled = true;
-  followButton.innerText = "⏳ Đợi " + counter + " giây...";
+  const followBtn = document.getElementById('followBtn');
+  followBtn.disabled = true;
+  followBtn.innerText = "⏳ Đợi " + counter + " giây...";
 
   const interval = setInterval(() => {
     counter--;
@@ -36,7 +36,7 @@ function startCountdown() {
       clearInterval(interval);
       window.location.href = "https://voz.ee/s/TycfcCuvX"; // link đích
     } else {
-      followButton.innerText = "⏳ Đợi " + counter + " giây...";
+      followBtn.innerText = "⏳ Đợi " + counter + " giây...";
     }
   }, 1000);
 }
