@@ -22,6 +22,7 @@
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       color: #fff;
       text-align: center;
+      padding: 20px;
     }
 
     @keyframes gradientBG {
@@ -29,14 +30,27 @@
       50% { background-position: 100% 50%; }
       100% { background-position: 0% 50%; }
     }
-    h1 {
-      font-size: 5em;
-      margin-bottom: 40px;
-      text-shadow: 1px 1px 5px #000;
+
+    .logo {
+      font-size: 4em;
+      font-weight: bold;
+      background: linear-gradient(90deg, #f12711, #f5af19, #12c2e9, #c471ed, #f64f59);
+      background-size: 300%;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: gradientText 5s ease-in-out infinite;
+      text-shadow: 2px 2px 8px rgba(0,0,0,0.4);
+      margin-bottom: 30px;
+    }
+
+    @keyframes gradientText {
+      0% { background-position: 0% }
+      50% { background-position: 100% }
+      100% { background-position: 0% }
     }
 
     h2 {
-      font-size: 2em;
+      font-size: 1.5em;
       margin-bottom: 20px;
       text-shadow: 1px 1px 5px #000;
     }
@@ -77,18 +91,30 @@
       font-size: 16px;
       color: #e0e0e0;
     }
+
+    .otp-box {
+      margin-top: 40px;
+      display: none;
+    }
+
+    input {
+      padding: 10px;
+      border-radius: 8px;
+      border: none;
+      font-size: 16px;
+    }
+
+    .status {
+      margin-top: 10px;
+      font-size: 16px;
+    }
   </style>
 </head>
 <body>
-  <h1>S2 CODE TAEM <h1></h1>
 
+  <h1 class="logo">𝐒𝟐 𝐂𝐨𝐝𝐞 𝐓𝐚𝐞𝐦</h1>
+  <h2>💻 Hãy nhấn Follow để tiếp tục đến trang đặc biệt</h2>
 
-
-
-
-</head>
-<body>
-  <h2>💻 Hãy nhấn Follow để tiếp tục đến trang đặc biệt</h1>
   <a href="https://youtube.com/@s2code-music?si=yRR3ZsHFadw1dIY2&return=1"
      target="_blank"
      class="btn"
@@ -98,15 +124,33 @@
   <div class="countdown" id="countdown">10</div>
   <div class="note" id="note" style="display: none;">⏳ Đang chuyển hướng...</div>
 
+  <div class="otp-box" id="otpBox">
+    <p>🔒 Vượt quá số lượt! Nhập mã xác minh để tiếp tục</p>
+    <input type="text" id="otpInput" placeholder="Nhập mã (ví dụ: s2taem2025)" />
+    <button class="btn" onclick="submitOTP()">Mở khoá</button>
+    <div class="status" id="statusBox"></div>
+  </div>
+
   <script>
+    const countdown = document.getElementById('countdown');
+    const note = document.getElementById('note');
+    const otpBox = document.getElementById('otpBox');
+    const statusBox = document.getElementById('statusBox');
+
     function handleFlow() {
-      setTimeout(startCountdown, 3000);
+      const accessCount = parseInt(localStorage.getItem("accessCount") || "0") + 1;
+      localStorage.setItem("accessCount", accessCount);
+
+      if (accessCount <= 3) {
+        setTimeout(startCountdown, 3000);
+      } else {
+        otpBox.style.display = "block";
+      }
+
       return true;
     }
 
     function startCountdown() {
-      const countdown = document.getElementById('countdown');
-      const note = document.getElementById('note');
       countdown.style.display = 'block';
       note.style.display = 'block';
 
@@ -123,6 +167,28 @@
         }
       }, 1000);
     }
+
+    async function submitOTP() {
+      const code = document.getElementById("otpInput").value.trim();
+
+      const res = await fetch("http://YOUR_PUBLIC_IP:6969/verify-passcode", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ code })
+      });
+
+      const result = await res.json();
+      if (result.success) {
+        statusBox.innerText = "✅ Xác minh thành công!";
+        localStorage.setItem("accessCount", "0");
+        setTimeout(() => {
+          window.location.reload();
+        }, 1500);
+      } else {
+        statusBox.innerText = "❌ Mã sai hoặc đã hết hạn!";
+      }
+    }
   </script>
+
 </body>
 </html>
