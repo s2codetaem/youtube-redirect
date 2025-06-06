@@ -1,6 +1,6 @@
 const maxAccess = 3;
 const accessKey = 's2code_access_count';
-const otpURL = 'http://172.31.1.53:6969/verify-otp'; // Thay bằng IP thật
+const otpURL = 'http://13.211.57.234:6969/verify-otp'; // Thay bằng IP thật
 
 function handleFlow() {
   let count = parseInt(localStorage.getItem(accessKey)) || 0;
