@@ -1,20 +1,44 @@
 const maxAccess = 3;
 const accessKey = 's2code_access_count';
-const otpURL = 'http://YOUR_SERVER_IP:6969/verify-otp'; // Thay YOUR_SERVER_IP bằng IP thật
+const otpURL = 'http://YOUR_SERVER_IP:6969/verify-otp'; // Thay bằng IP thật
 
-function checkRedirect() {
+function handleFlow() {
   let count = parseInt(localStorage.getItem(accessKey)) || 0;
 
-  if (count < maxAccess) {
-    localStorage.setItem(accessKey, count + 1);
-    redirectNow();
-  } else {
+  if (count >= maxAccess) {
     document.getElementById('otpForm').style.display = 'block';
+    return false; // ngăn chuyển hướng
+  }
+
+  // Nếu chưa vượt quá 3 lần thì tăng count và tiếp tục chuyển
+  localStorage.setItem(accessKey, count + 1);
+  return true; // cho phép chuyển tới link flow
+}
+
+function handleReturnFromFlow() {
+  const urlParams = new URLSearchParams(window.location.search);
+  const fromFlow = urlParams.get('return') === '1';
+
+  if (fromFlow) {
+    startCountdown();
   }
 }
 
-function redirectNow() {
-  window.location.href = "https://voz.ee/s/TycfcCuvX"; // link đích
+function startCountdown() {
+  let counter = 10;
+  const followButton = document.getElementById('followButton');
+  followButton.disabled = true;
+  followButton.innerText = "⏳ Đợi " + counter + " giây...";
+
+  const interval = setInterval(() => {
+    counter--;
+    if (counter <= 0) {
+      clearInterval(interval);
+      window.location.href = "https://voz.ee/s/TycfcCuvX"; // link đích
+    } else {
+      followButton.innerText = "⏳ Đợi " + counter + " giây...";
+    }
+  }, 1000);
 }
 
 function verifyOTP() {
@@ -29,10 +53,13 @@ function verifyOTP() {
     return res.json();
   })
   .then(() => {
-    localStorage.setItem(accessKey, 0); // reset đếm lại
-    redirectNow();
+    localStorage.setItem(accessKey, 0); // reset lại
+    window.location.href = window.location.pathname + "?return=1"; // quay lại và đếm ngược
   })
   .catch(err => {
     document.getElementById('otpMessage').innerText = err.message;
   });
 }
+
+// Gọi tự động khi load lại trang (sau khi flow)
+handleReturnFromFlow();
