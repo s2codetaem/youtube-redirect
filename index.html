@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>S2 Code Team - Follow để Khám Phá</title>
+  <title>S2 Code Team - Kết Nối Cộng Đồng</title>
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
   <style>
     * {
@@ -23,7 +23,6 @@
       overflow-x: hidden;
     }
 
-    /* Hiệu ứng background particles */
     #particles-js {
       position: fixed;
       width: 100%;
@@ -32,11 +31,9 @@
       background: linear-gradient(135deg, #0d1117, #1a2332);
     }
 
-    /* Header với logo */
     header {
       padding: 20px;
       text-align: center;
-      position: relative;
       width: 100%;
     }
 
@@ -49,7 +46,6 @@
       -webkit-text-fill-color: transparent;
       animation: neonGlow 4s linear infinite;
       text-shadow: 0 0 20px rgba(57, 255, 20, 0.5);
-      cursor: default;
     }
 
     @keyframes neonGlow {
@@ -57,12 +53,10 @@
       100% { background-position: 400%; }
     }
 
-    /* Nội dung chính */
     .container {
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: center;
       text-align: center;
       padding: 20px;
       max-width: 600px;
@@ -82,10 +76,16 @@
       to { opacity: 1; transform: translateY(0); }
     }
 
-    /* Nút Follow */
+    .social-buttons {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      width: 100%;
+    }
+
     .btn {
       background: linear-gradient(45deg, #39ff14, #00f0ff);
-      padding: 15px 40px;
+      padding: 15px;
       color: #0d1117;
       font-size: 1.2em;
       font-weight: 700;
@@ -96,6 +96,7 @@
       box-shadow: 0 5px 15px rgba(57, 255, 20, 0.5);
       position: relative;
       overflow: hidden;
+      text-align: center;
     }
 
     .btn::before {
@@ -118,73 +119,6 @@
       box-shadow: 0 8px 20px rgba(57, 255, 20, 0.7);
     }
 
-    /* Countdown */
-    .countdown {
-      font-size: 4em;
-      font-weight: 700;
-      color: #00f0ff;
-      margin-top: 30px;
-      animation: pulse 1.5s ease-in-out infinite;
-      display: none;
-    }
-
-    @keyframes pulse {
-      0%, 100% { transform: scale(1); opacity: 1; }
-      50% { transform: scale(1.1); opacity: 0.8; }
-    }
-
-    .note {
-      margin-top: 15px;
-      font-size: 1em;
-      color: #8b949e;
-      display: none;
-    }
-
-    /* OTP Box */
-    .otp-box {
-      margin-top: 30px;
-      display: none;
-      background: rgba(22, 27, 34, 0.8);
-      padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
-      animation: slideIn 0.5s ease;
-    }
-
-    @keyframes slideIn {
-      from { opacity: 0; transform: translateY(50px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    .otp-box p {
-      font-size: 1.1em;
-      margin-bottom: 15px;
-      color: #c9d1d9;
-    }
-
-    input {
-      padding: 12px;
-      border: none;
-      border-radius: 8px;
-      font-size: 1em;
-      background: #21262d;
-      color: #c9d1d9;
-      width: 100%;
-      margin-bottom: 15px;
-    }
-
-    input:focus {
-      outline: none;
-      box-shadow: 0 0 10px rgba(57, 255, 20, 0.5);
-    }
-
-    .status {
-      margin-top: 10px;
-      font-size: 1em;
-      color: #ff5555;
-    }
-
-    /* Footer */
     footer {
       position: absolute;
       bottom: 20px;
@@ -195,7 +129,6 @@
     footer a {
       color: #39ff14;
       text-decoration: none;
-      transition: color 0.3s;
     }
 
     footer a:hover {
@@ -210,25 +143,20 @@
   </header>
 
   <div class="container">
-    <h2>💻 𝐟𝐨𝐥𝐥𝐨𝐰 𝐝̄𝐞̂̉ 𝐭𝐨̛́𝐢 𝐭𝐫𝐚𝐧𝐠 𝐝̄𝐢́𝐜𝐡</h2>
-    <a href="https://youtube.com/@s2code-music?si=yRR3ZsHFadw1dIY2&return=1"
-       target="_blank"
-       class="btn"
-       onclick="return handleFlow();"
-       id="followBtn">▶️ Follow YouTube</a>
-    <div class="countdown" id="countdown">10</div>
-    <div class="note" id="note">⏳ Đang chuyển hướng...</div>
-
-    <div class="otp-box" id="otpBox">
-      <p>🔒 Vượt quá số lượt! Nhập mã xác minh</p>
-      <input type="text" id="otpInput" placeholder="Nhập mã (VD: s2taem2025)" />
-      <button class="btn" onclick="submitOTP()">Mở Khóa</button>
-      <div class="status" id="statusBox"></div>
+    <h2>💻 Kết Nối Với S2 Code Team</h2>
+    <div class="social-buttons">
+      <a href="https://www.facebook.com/s2code08122000?mibextid=wwXIfr" target="_blank" class="btn">Facebook 1</a>
+      <a href="https://www.facebook.com/share/15ERMDr9kR/?mibextid=wwXIfr" target="_blank" class="btn">Facebook 2</a>
+      <a href="https://www.tiktok.com/@s2codetaem.4.0?_t=ZS-8wywr1rXpaa&_r=1" target="_blank" class="btn">TikTok</a>
+      <a href="tel:0877797175" class="btn">Zalo (0877797175)</a>
+      <a href="https://youtube.com/@s2code-music?si=W_GBrdFbU_fGWPkm" target="_blank" class="btn">YouTube</a>
+      <a href="https://t.me/S2codetaem48" target="_blank" class="btn">Telegram</a>
+      <a href="redirect.html" class="btn">Tạo Trang Chuyển Hướng S2 Code Team</a>
     </div>
   </div>
 
   <footer>
-    &copy; 🄲 𝟐𝟎𝟐𝟓 𝐒𝟐 𝐂𝐨𝐝𝐞 𝐓𝐞𝐚𝐦 | <a href="https://t.me/s2codetaem48">c𝐜𝐨𝐩𝐲𝐫𝐢𝐠𝐡𝐭 𝐜𝐨𝐝𝐞</a>
+    © 2025 S2 Code Team | <a href="https://x.ai/grok">Powered by xAI</a>
   </footer>
 
   <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
@@ -249,66 +177,6 @@
         modes: { repulse: { distance: 100, duration: 0.4 }, push: { particles_nb: 4 } }
       }
     });
-
-    const countdown = document.getElementById('countdown');
-    const note = document.getElementById('note');
-    const otpBox = document.getElementById('otpBox');
-    const statusBox = document.getElementById('statusBox');
-
-    function handleFlow() {
-      const accessCount = parseInt(localStorage.getItem("accessCount") || "0") + 1;
-      localStorage.setItem("accessCount", accessCount);
-
-      if (accessCount <= 3) {
-        setTimeout(startCountdown, 3000);
-      } else {
-        otpBox.style.display = "block";
-      }
-
-      return true;
-    }
-
-    function startCountdown() {
-      countdown.style.display = 'block';
-      note.style.display = 'block';
-
-      let time = 10;
-      countdown.innerText = time;
-
-      const interval = setInterval(() => {
-        time--;
-        countdown.innerText = time;
-
-        if (time === 0) {
-          clearInterval(interval);
-          window.location.href = "https://voz.ee/s/TycfcCuvX";
-        }
-      }, 1000);
-    }
-
-    async function submitOTP() {
-      const code = document.getElementById("otpInput").value.trim();
-      statusBox.innerText = "🔄 Đang xác minh...";
-
-      try {
-        const res = await fetch("http://YOUR_PUBLIC_IP:6969/verify-passcode", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ code })
-        });
-
-        const result = await res.json();
-        if (result.success) {
-          statusBox.innerText = "✅ Xác minh thành công!";
-          localStorage.setItem("accessCount", "0");
-          setTimeout(() => window.location.reload(), 1500);
-        } else {
-          statusBox.innerText = "❌ Mã sai hoặc đã hết hạn!";
-        }
-      } catch (error) {
-        statusBox.innerText = "❌ Lỗi kết nối!";
-      }
-    }
   </script>
 </body>
 </html>
