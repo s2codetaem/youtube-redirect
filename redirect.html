@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>𝗧ạ𝗼 𝗖𝗵𝘂𝘆ể𝗻 𝗛ướ𝗻𝗴</title>
+  <title>𝗧ạ𝗼 𝗖𝗵𝘂𝘆ể𝗻 �_Hướ𝗻𝗴</title>
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
   <style>
     * {
@@ -38,7 +38,7 @@
     }
 
     .logo {
-      font-size: 2.5em; /* Giảm từ 3.5em xuống 2.5em */
+      font-size: 2.5em;
       font-weight: 700;
       background: linear-gradient(90deg, #39ff14, #00f0ff, #ff00ff, #ff9500);
       background-size: 400%;
@@ -46,8 +46,8 @@
       -webkit-text-fill-color: transparent;
       animation: neonGlow 4s linear infinite;
       text-shadow: 0 0 20px rgba(57, 255, 20, 0.5);
-      display: inline-block; /* Đảm bảo trên 1 dòng */
-      white-space: nowrap; /* Ngăn xuống dòng */
+      display: inline-block;
+      white-space: nowrap;
     }
 
     @keyframes neonGlow {
@@ -171,15 +171,17 @@
     }
 
     footer {
-      position: absolute;
-      bottom: 5px;
+      position: fixed; /* Cố định footer ở cuối trang */
+      bottom: 0;
+      left: 0;
+      right: 0;
       font-size: 0.7em;
       color: #8b949e;
       text-align: center;
-      width: 100%;
       padding: 10px 0;
       background: rgba(22, 27, 34, 0.8);
       border-top: 1px solid #39ff14;
+      z-index: 1000; /* Đảm bảo footer nằm trên các phần tử khác */
     }
 
     footer a {
@@ -240,25 +242,21 @@
       const loading = document.getElementById("loading");
       const copySection = document.getElementById("copySection");
 
-      // Kiểm tra URL hợp lệ
       if (!flowUrl || !flowUrl.startsWith("http") || !destinationUrl || !destinationUrl.startsWith("http")) {
         alert("Vui lòng nhập URL hợp lệ (bắt đầu bằng http hoặc https) cho cả hai ô!");
         return;
       }
 
-      // Hiển thị hiệu ứng loading
       loading.style.display = "block";
       copySection.style.display = "none";
 
-      // Giả lập tạo URL (thay bằng API thật nếu có)
       setTimeout(() => {
         const uniqueId = Math.random().toString(36).substring(2, 10);
         generatedUrl = `${window.location.origin}/flow.html?flow=${encodeURIComponent(flowUrl)}&dest=${encodeURIComponent(destinationUrl)}&id=${uniqueId}`;
         
-        // Ẩn loading và hiển thị nút sao chép
         loading.style.display = "none";
         copySection.style.display = "block";
-      }, 1500); // Giả lập thời gian xử lý 1.5 giây
+      }, 1500);
     }
 
     function copyUrl() {
