@@ -2,136 +2,254 @@
 <html lang="vi">
 <head>
   <meta charset="UTF-8">
-  <title>Follow để tiếp tục</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>S2 Code Team - Follow để Khám Phá</title>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
   <style>
     * {
-      margin: 0; padding: 0;
+      margin: 0;
+      padding: 0;
       box-sizing: border-box;
     }
 
     body {
-      height: 100vh;
-      background: linear-gradient(-45deg, #1f1c2c, #928DAB, #2C3E50, #4CA1AF);
-      background-size: 400% 400%;
-      animation: gradientBG 15s ease infinite;
+      min-height: 100vh;
+      background: #0d1117;
       display: flex;
       flex-direction: column;
-      justify-content: center;
       align-items: center;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      color: #fff;
-      text-align: center;
-      padding: 20px;
+      font-family: 'JetBrains Mono', monospace;
+      color: #c9d1d9;
+      overflow-x: hidden;
     }
 
-    @keyframes gradientBG {
-      0% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
+    /* Hiệu ứng background particles */
+    #particles-js {
+      position: fixed;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      background: linear-gradient(135deg, #0d1117, #1a2332);
+    }
+
+    /* Header với logo */
+    header {
+      padding: 20px;
+      text-align: center;
+      position: relative;
+      width: 100%;
     }
 
     .logo {
-      font-size: 4em;
-      font-weight: bold;
-      background: linear-gradient(90deg, #f12711, #f5af19, #12c2e9, #c471ed, #f64f59);
-      background-size: 300%;
+      font-size: 3.5em;
+      font-weight: 700;
+      background: linear-gradient(90deg, #39ff14, #00f0ff, #ff00ff, #ff9500);
+      background-size: 400%;
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
-      animation: gradientText 5s ease-in-out infinite;
-      text-shadow: 2px 2px 8px rgba(0,0,0,0.4);
-      margin-bottom: 30px;
+      animation: neonGlow 4s linear infinite;
+      text-shadow: 0 0 20px rgba(57, 255, 20, 0.5);
+      cursor: default;
     }
 
-    @keyframes gradientText {
-      0% { background-position: 0% }
-      50% { background-position: 100% }
-      100% { background-position: 0% }
+    @keyframes neonGlow {
+      0% { background-position: 0%; }
+      100% { background-position: 400%; }
+    }
+
+    /* Nội dung chính */
+    .container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 20px;
+      max-width: 600px;
+      margin: 20px;
     }
 
     h2 {
-      font-size: 1.5em;
+      font-size: 1.8em;
       margin-bottom: 20px;
-      text-shadow: 1px 1px 5px #000;
+      color: #39ff14;
+      text-shadow: 0 0 10px rgba(57, 255, 20, 0.3);
+      animation: fadeIn 1s ease-in;
     }
 
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Nút Follow */
     .btn {
-      background: #FF0000;
-      padding: 15px 30px;
-      color: white;
-      font-size: 18px;
+      background: linear-gradient(45deg, #39ff14, #00f0ff);
+      padding: 15px 40px;
+      color: #0d1117;
+      font-size: 1.2em;
+      font-weight: 700;
       border: none;
-      border-radius: 8px;
+      border-radius: 50px;
       text-decoration: none;
-      transition: 0.3s;
-      box-shadow: 0 4px 15px rgba(255,0,0,0.5);
+      transition: transform 0.3s, box-shadow 0.3s;
+      box-shadow: 0 5px 15px rgba(57, 255, 20, 0.5);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+      transition: 0.5s;
+    }
+
+    .btn:hover::before {
+      left: 100%;
     }
 
     .btn:hover {
-      background: #cc0000;
-      transform: scale(1.05);
+      transform: translateY(-3px);
+      box-shadow: 0 8px 20px rgba(57, 255, 20, 0.7);
     }
 
+    /* Countdown */
     .countdown {
-      font-size: 64px;
-      font-weight: bold;
-      margin-top: 40px;
-      animation: pulse 1s ease-in-out infinite;
+      font-size: 4em;
+      font-weight: 700;
+      color: #00f0ff;
+      margin-top: 30px;
+      animation: pulse 1.5s ease-in-out infinite;
       display: none;
     }
 
     @keyframes pulse {
-      0% { transform: scale(1); opacity: 1; }
-      50% { transform: scale(1.2); opacity: 0.8; }
-      100% { transform: scale(1); opacity: 1; }
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.1); opacity: 0.8; }
     }
 
     .note {
-      margin-top: 20px;
-      font-size: 16px;
-      color: #e0e0e0;
-    }
-
-    .otp-box {
-      margin-top: 40px;
+      margin-top: 15px;
+      font-size: 1em;
+      color: #8b949e;
       display: none;
     }
 
+    /* OTP Box */
+    .otp-box {
+      margin-top: 30px;
+      display: none;
+      background: rgba(22, 27, 34, 0.8);
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+      animation: slideIn 0.5s ease;
+    }
+
+    @keyframes slideIn {
+      from { opacity: 0; transform: translateY(50px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .otp-box p {
+      font-size: 1.1em;
+      margin-bottom: 15px;
+      color: #c9d1d9;
+    }
+
     input {
-      padding: 10px;
-      border-radius: 8px;
+      padding: 12px;
       border: none;
-      font-size: 16px;
+      border-radius: 8px;
+      font-size: 1em;
+      background: #21262d;
+      color: #c9d1d9;
+      width: 100%;
+      margin-bottom: 15px;
+    }
+
+    input:focus {
+      outline: none;
+      box-shadow: 0 0 10px rgba(57, 255, 20, 0.5);
     }
 
     .status {
       margin-top: 10px;
-      font-size: 16px;
+      font-size: 1em;
+      color: #ff5555;
+    }
+
+    /* Footer */
+    footer {
+      position: absolute;
+      bottom: 20px;
+      font-size: 0.9em;
+      color: #8b949e;
+    }
+
+    footer a {
+      color: #39ff14;
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+
+    footer a:hover {
+      color: #00f0ff;
     }
   </style>
 </head>
 <body>
+  <div id="particles-js"></div>
+  <header>
+    <h1 class="logo">S2 Code Team</h1>
+  </header>
 
-  <h1 class="logo">𝐒𝟐 𝐂𝐨𝐝𝐞 𝐓𝐚𝐞𝐦</h1>
-  <h2>💻 Hãy nhấn Follow để tiếp tục đến trang đặc biệt</h2>
+  <div class="container">
+    <h2>💻 Follow để Khám Phá Thế Giới Lập Trình</h2>
+    <a href="https://youtube.com/@s2code-music?si=yRR3ZsHFadw1dIY2&return=1"
+       target="_blank"
+       class="btn"
+       onclick="return handleFlow();"
+       id="followBtn">▶️ Follow YouTube</a>
+    <div class="countdown" id="countdown">10</div>
+    <div class="note" id="note">⏳ Đang chuyển hướng...</div>
 
-  <a href="https://youtube.com/@s2code-music?si=yRR3ZsHFadw1dIY2&return=1"
-     target="_blank"
-     class="btn"
-     onclick="return handleFlow();"
-     id="followBtn">▶️ Follow YouTube</a>
-
-  <div class="countdown" id="countdown">10</div>
-  <div class="note" id="note" style="display: none;">⏳ Đang chuyển hướng...</div>
-
-  <div class="otp-box" id="otpBox">
-    <p>🔒 Vượt quá số lượt! Nhập mã xác minh để tiếp tục</p>
-    <input type="text" id="otpInput" placeholder="Nhập mã (ví dụ: s2taem2025)" />
-    <button class="btn" onclick="submitOTP()">Mở khoá</button>
-    <div class="status" id="statusBox"></div>
+    <div class="otp-box" id="otpBox">
+      <p>🔒 Vượt quá số lượt! Nhập mã xác minh</p>
+      <input type="text" id="otpInput" placeholder="Nhập mã (VD: s2taem2025)" />
+      <button class="btn" onclick="submitOTP()">Mở Khóa</button>
+      <div class="status" id="statusBox"></div>
+    </div>
   </div>
 
+  <footer>
+    &copy; 2025 S2 Code Team | <a href="https://x.ai/grok">Powered by xAI</a>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
   <script>
+    particlesJS("particles-js", {
+      particles: {
+        number: { value: 80, density: { enable: true, value_area: 800 } },
+        color: { value: ["#39ff14", "#00f0ff", "#ff00ff"] },
+        shape: { type: "circle" },
+        opacity: { value: 0.5, random: true },
+        size: { value: 3, random: true },
+        line_linked: { enable: true, distance: 150, color: "#39ff14", opacity: 0.4, width: 1 },
+        move: { enable: true, speed: 2, direction: "none", random: true }
+      },
+      interactivity: {
+        detect_on: "canvas",
+        events: { onhover: { enable: true, mode: "repulse" }, onclick: { enable: true, mode: "push" } },
+        modes: { repulse: { distance: 100, duration: 0.4 }, push: { particles_nb: 4 } }
+      }
+    });
+
     const countdown = document.getElementById('countdown');
     const note = document.getElementById('note');
     const otpBox = document.getElementById('otpBox');
@@ -170,25 +288,27 @@
 
     async function submitOTP() {
       const code = document.getElementById("otpInput").value.trim();
+      statusBox.innerText = "🔄 Đang xác minh...";
 
-      const res = await fetch("http://YOUR_PUBLIC_IP:6969/verify-passcode", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ code })
-      });
+      try {
+        const res = await fetch("http://YOUR_PUBLIC_IP:6969/verify-passcode", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ code })
+        });
 
-      const result = await res.json();
-      if (result.success) {
-        statusBox.innerText = "✅ Xác minh thành công!";
-        localStorage.setItem("accessCount", "0");
-        setTimeout(() => {
-          window.location.reload();
-        }, 1500);
-      } else {
-        statusBox.innerText = "❌ Mã sai hoặc đã hết hạn!";
+        const result = await res.json();
+        if (result.success) {
+          statusBox.innerText = "✅ Xác minh thành công!";
+          localStorage.setItem("accessCount", "0");
+          setTimeout(() => window.location.reload(), 1500);
+        } else {
+          statusBox.innerText = "❌ Mã sai hoặc đã hết hạn!";
+        }
+      } catch (error) {
+        statusBox.innerText = "❌ Lỗi kết nối!";
       }
     }
   </script>
-
 </body>
 </html>
