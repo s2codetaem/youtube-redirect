@@ -2,43 +2,40 @@
 <html lang="vi">
 <head>
   <meta charset="UTF-8">
-  <title>Xác thực OTP - S2CodeTaem</title>
+  <title>Follow để tiếp tục</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <script src="https://cdn.jsdelivr.net/npm/otplib@12.0.1/otplib.umd.min.js"></script>
   <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
+    * {
+      margin: 0; padding: 0;
+      box-sizing: border-box;
+    }
+
     body {
       height: 100vh;
       background: linear-gradient(-45deg, #1f1c2c, #928DAB, #2C3E50, #4CA1AF);
       background-size: 400% 400%;
       animation: gradientBG 15s ease infinite;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      color: #fff;
       display: flex;
       flex-direction: column;
-      justify-content: space-between;
+      justify-content: center;
       align-items: center;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      color: #fff;
       text-align: center;
-      padding: 30px;
     }
+
     @keyframes gradientBG {
       0% { background-position: 0% 50%; }
       50% { background-position: 100% 50%; }
       100% { background-position: 0% 50%; }
     }
-    .logo {
-      max-width: 120px;
-      margin-bottom: 10px;
-    }
-    .title {
-      font-size: 28px;
-      margin-bottom: 10px;
-    }
-    .fancy-title {
-      font-size: 32px;
+
+    h1 {
+      font-size: 2em;
       margin-bottom: 20px;
-      font-family: 'Courier New', monospace;
+      text-shadow: 1px 1px 5px #000;
     }
+
     .btn {
       background: #FF0000;
       padding: 15px 30px;
@@ -50,15 +47,12 @@
       transition: 0.3s;
       box-shadow: 0 4px 15px rgba(255,0,0,0.5);
     }
+
     .btn:hover {
       background: #cc0000;
       transform: scale(1.05);
     }
-    .note {
-      margin-top: 10px;
-      font-size: 16px;
-      color: #ffe;
-    }
+
     .countdown {
       font-size: 64px;
       font-weight: bold;
@@ -66,95 +60,35 @@
       animation: pulse 1s ease-in-out infinite;
       display: none;
     }
+
     @keyframes pulse {
       0% { transform: scale(1); opacity: 1; }
       50% { transform: scale(1.2); opacity: 0.8; }
       100% { transform: scale(1); opacity: 1; }
     }
-    .auth-box {
-      margin-top: 30px;
-      color: #ffffff;
-      display: none;
-    }
-    input[type="text"] {
-      padding: 10px;
-      border-radius: 5px;
-      border: none;
-      margin-top: 10px;
+
+    .note {
+      margin-top: 20px;
       font-size: 16px;
-      width: 160px;
-    }
-    .auth-box button {
-      margin-left: 10px;
-      padding: 10px 15px;
-      font-size: 16px;
-      border: none;
-      border-radius: 5px;
-      background: #00cc66;
-      color: white;
-    }
-    footer {
-      font-size: 14px;
-      color: #cccccc;
-      margin-top: 50px;
-      padding-top: 30px;
+      color: #e0e0e0;
     }
   </style>
 </head>
 <body>
-
-  <div>
-    <img src="https://i.imgur.com/LbrW9NC.jpeg" alt="S2 Logo" class="logo" />
-    <div class="title">Chào mừng bạn đến với</div>
-    <div class="fancy-title">𝐒𝟐 𝐂𝐨𝐝𝐞 𝐓𝐚𝐞𝐦</div>
-  </div>
-
-  <p class="note" id="flowNote">Nhấn vào đây để follow, bạn sẽ được chuyển tới trang đích</p>
-  <a href="https://youtube.com/@s2code-music?si=yRR3ZsHFadw1dIY2" target="_blank" class="btn" id="followBtn" onclick="startCountdown()">▶️ Follow YouTube</a>
+  <h1>💻 Hãy nhấn Follow để tiếp tục đến trang đặc biệt</h1>
+  <a href="https://youtube.com/@s2code-music?si=yRR3ZsHFadw1dIY2&return=1"
+     target="_blank"
+     class="btn"
+     onclick="return handleFlow();"
+     id="followBtn">▶️ Follow YouTube</a>
 
   <div class="countdown" id="countdown">10</div>
   <div class="note" id="note" style="display: none;">⏳ Đang chuyển hướng...</div>
 
-  <div class="auth-box" id="authBox">
-    <p>🔐 Bạn đã vượt quá số lần truy cập. Nhập mã xác thực từ Authenticator để quay lại trang chính:</p>
-    <input type="text" id="authCode" placeholder="Nhập mã 6 số" maxlength="6" />
-    <button onclick="checkCode()">Mở khóa</button>
-    <p id="authResult" style="margin-top:10px;"></p>
-  </div>
-
-  <footer>
-    🅒 𝗖𝗼𝗽𝘆𝗿𝗶𝗴𝗵𝘁 𝗦𝟮 𝗖𝗼𝗱𝗲 𝗧𝐚𝐞𝗺 𝗔𝗹𝗹 𝗿𝗶𝗴𝗵𝘁𝘀 𝗿𝗲𝘀𝗲𝗿𝘃𝗲𝗱.
-  </footer>
-
   <script>
-    const secret = "JBSWY3DPEHPK3PXP";
-    const maxAccess = 3;
-
-    function setCookie(name, value, days) {
-      const d = new Date();
-      d.setTime(d.getTime() + (days*24*60*60*1000));
-      document.cookie = `${name}=${value};expires=${d.toUTCString()};path=/`;
-    }
-
-    function getCookie(name) {
-      const value = "; " + document.cookie;
-      const parts = value.split("; " + name + "=");
-      if (parts.length === 2) return parts.pop().split(";").shift();
-      return null;
-    }
-
-    // Access tracking
-    let accessCount = parseInt(getCookie("s2code_access_count") || "0");
-
-    if (accessCount >= maxAccess) {
-      document.getElementById("followBtn").style.display = "none";
-      document.getElementById("countdown").style.display = "none";
-      document.getElementById("note").style.display = "none";
-      document.getElementById("flowNote").style.display = "none";
-      document.getElementById("authBox").style.display = "block";
-    } else {
-      accessCount++;
-      setCookie("s2code_access_count", accessCount, 7);
+    function handleFlow() {
+      setTimeout(startCountdown, 3000);
+      return true;
     }
 
     function startCountdown() {
@@ -162,39 +96,20 @@
       const note = document.getElementById('note');
       countdown.style.display = 'block';
       note.style.display = 'block';
+
       let time = 10;
       countdown.innerText = time;
+
       const interval = setInterval(() => {
         time--;
         countdown.innerText = time;
+
         if (time === 0) {
           clearInterval(interval);
           window.location.href = "https://voz.ee/s/TycfcCuvX";
         }
       }, 1000);
     }
-
-    function checkCode() {
-      const input = document.getElementById("authCode").value.trim();
-      const result = document.getElementById("authResult");
-
-      const delta = otplib.authenticator.checkDelta(input, secret, { window: 0 });
-
-      if (delta === null) {
-        result.innerText = "❌ Mã không đúng hoặc đã hết hạn.";
-      } else if (delta === 0) {
-        result.innerText = "✅ Mã hợp lệ! Đang mở khoá lại trang chính...";
-        setTimeout(() => {
-          // Show back the follow section
-          document.getElementById("authBox").style.display = "none";
-          document.getElementById("followBtn").style.display = "inline-block";
-          document.getElementById("flowNote").style.display = "block";
-        }, 1500);
-      } else {
-        result.innerText = "⚠️ Mã đúng nhưng đã hết hạn. Vui lòng dùng mã mới.";
-      }
-    }
   </script>
-
 </body>
 </html>
