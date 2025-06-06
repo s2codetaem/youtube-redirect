@@ -179,8 +179,8 @@
     }
 
     footer {
-      position: absolute;
-      bottom: 5px;
+      position: fixed; /* Thay từ absolute thành fixed để đứng im */
+      bottom: 0;
       font-size: 0.7em;
       color: #8b949e;
       text-align: center;
@@ -188,6 +188,7 @@
       padding: 10px 0;
       background: rgba(22, 27, 34, 0.8);
       border-top: 1px solid #39ff14;
+      z-index: 10; /* Đảm bảo footer nằm trên các phần tử khác */
     }
 
     footer a {
@@ -212,8 +213,8 @@
   </header>
 
   <div class="container">
-    <h2>💻 Hãy nhấn follow để tiếp tục</h2>
-    <a id="flowBtn" href="#" target="_blank" class="btn" onclick="return handleFlow();">▶️ Follow </a>
+    <h2>💻 Hãy nhấn để tiếp tục</h2>
+    <a id="flowBtn" href="#" target="_blank" class="btn" onclick="return handleFlow();">▶️ Tiếp tục</a>
     <div class="countdown" id="countdown">10</div>
     <div class="note" id="note">⏳ Đang chuyển hướng...</div>
     <div class="otp-box" id="otpBox">
@@ -225,7 +226,7 @@
   </div>
 
   <footer>
-    <p>Bản quyền thuộc về <span class="owner">S2 Code Team</span> © 2025 | <a href="https://t.me/S2codetaem48">tạ ngọc long </a></p>
+    <p>Bản quyền thuộc về <span class="owner">S2 Code Team</span> © 2025 | <a href="https://t.me/S2codetaem48">tạ ngọc long code</a></p>
   </footer>
 
   <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
