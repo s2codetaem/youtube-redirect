@@ -2,42 +2,83 @@
 <html lang="vi">
 <head>
   <meta charset="UTF-8">
-  <title>S2 Code TaeM Redirect</title>
+  <title>Follow để tiếp tục</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
-    body {
-      background: linear-gradient(135deg, #1a1a1a, #2d2d2d);
-      color: white;
-      font-family: 'Segoe UI', sans-serif;
-      text-align: center;
-      padding: 50px;
+    * {
+      margin: 0; padding: 0;
+      box-sizing: border-box;
     }
+
+    body {
+      height: 100vh;
+      background: linear-gradient(-45deg, #1f1c2c, #928DAB, #2C3E50, #4CA1AF);
+      background-size: 400% 400%;
+      animation: gradientBG 15s ease infinite;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      color: #fff;
+      text-align: center;
+    }
+
+    @keyframes gradientBG {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
     h1 {
       font-size: 2em;
       margin-bottom: 20px;
+      text-shadow: 1px 1px 5px #000;
     }
-    .logo {
-      width: 300px;
-      height: 300px;
-      border-radius: 20px;
-      margin-bottom: 20px;
-    }
-    button {
+
+    .btn {
+      background: #FF0000;
       padding: 15px 30px;
-      font-size: 1.2em;
-      border: none;
-      border-radius: 10px;
-      background-color: #ff0000;
       color: white;
-      cursor: pointer;
-      transition: background 0.3s ease;
+      font-size: 18px;
+      border: none;
+      border-radius: 8px;
+      text-decoration: none;
+      transition: 0.3s;
+      box-shadow: 0 4px 15px rgba(255,0,0,0.5);
     }
-    button:hover {
-      background-color: #cc0000;
+
+    .btn:hover {
+      background: #cc0000;
+      transform: scale(1.05);
     }
+
+    .countdown {
+      font-size: 64px;
+      font-weight: bold;
+      margin-top: 40px;
+      animation: pulse 1s ease-in-out infinite;
+      display: none;
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.2); opacity: 0.8; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+
+    .note {
+      margin-top: 20px;
+      font-size: 16px;
+      color: #e0e0e0;
+      display: none;
+    }
+
     #otpForm {
       display: none;
       margin-top: 30px;
     }
+
     input[type="text"] {
       padding: 10px;
       width: 150px;
@@ -45,18 +86,30 @@
       border: none;
       margin-right: 10px;
     }
-    footer {
-      margin-top: 60px;
-      font-size: 0.9em;
-      color: #888;
+
+    button {
+      margin-top: 10px;
+      padding: 10px 20px;
+      background-color: #0f0f0f;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
     }
   </style>
 </head>
 <body>
-  <img src="https://i.imgur.com/W9QFQ23.jpg" class="logo" alt="S2 Logo" />
-  <h1>𝐒𝟐 𝐂𝐨𝐝𝐞 𝐓𝐚𝐞𝐦</h1>
-  <p>🎧 Nhấn vào đây để Follow bạn sẽ được chuyển tới trang đích</p>
-  <button onclick="checkRedirect()">👉 Follow</button>
+
+  <h1>💻 Hãy nhấn Follow để tiếp tục đến trang đặc biệt</h1>
+
+  <a href="https://youtube.com/@s2code-music?si=yRR3ZsHFadw1dIY2&return=1"
+     target="_blank"
+     class="btn"
+     onclick="return handleFlow();"
+     id="followBtn">▶️ Follow YouTube</a>
+
+  <div class="countdown" id="countdown">10</div>
+  <div class="note" id="note">⏳ Đang chuyển hướng...</div>
 
   <div id="otpForm">
     <p>🔐 Bạn đã vượt quá số lần truy cập! Vui lòng nhập mã xác thực để tiếp tục:</p>
@@ -65,8 +118,70 @@
     <p id="otpMessage" style="color: red; margin-top: 10px;"></p>
   </div>
 
-  <footer>🅒 𝗖𝗼𝗽𝘆𝗿𝗶𝗴𝗵𝘁 𝗦𝟮 𝗖𝗼𝗱𝗲 𝗧𝗮𝗲𝗺  𝗔𝗹𝗹 𝗿𝗶𝗴𝗵𝘁𝘀 𝗿𝗲𝘀𝗲𝗿𝘃𝗲𝗱.</footer>
+  <script>
+    const maxAccess = 3;
+    const accessKey = 's2code_access_count';
+    const otpURL = 'http://172.31.1.153:6969/verify-otp'; // 🔧 Đổi IP tại đây
 
-  <script src="redirect.js"></script>
+    function handleFlow() {
+      let count = parseInt(localStorage.getItem(accessKey)) || 0;
+      if (count >= maxAccess) {
+        document.getElementById('otpForm').style.display = 'block';
+        return false;
+      }
+      localStorage.setItem(accessKey, count + 1);
+      return true;
+    }
+
+    function verifyOTP() {
+      const code = document.getElementById('otpCode').value;
+      fetch(otpURL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ code })
+      })
+      .then(res => {
+        if (!res.ok) throw new Error("❌ Mã không đúng hoặc đã hết hạn.");
+        return res.json();
+      })
+      .then(() => {
+        localStorage.setItem(accessKey, 0);
+        window.location.href = window.location.pathname + "?return=1";
+      })
+      .catch(err => {
+        document.getElementById('otpMessage').innerText = err.message;
+      });
+    }
+
+    function startCountdown() {
+      let time = 10;
+      const countdownEl = document.getElementById('countdown');
+      const noteEl = document.getElementById('note');
+      const followBtn = document.getElementById('followBtn');
+
+      countdownEl.style.display = 'block';
+      noteEl.style.display = 'block';
+      followBtn.style.display = 'none';
+      countdownEl.innerText = time;
+
+      const interval = setInterval(() => {
+        time--;
+        countdownEl.innerText = time;
+        if (time === 0) {
+          clearInterval(interval);
+          window.location.href = "https://voz.ee/s/TycfcCuvX";
+        }
+      }, 1000);
+    }
+
+    function handleReturnFromFlow() {
+      const urlParams = new URLSearchParams(window.location.search);
+      if (urlParams.get('return') === '1') {
+        startCountdown();
+      }
+    }
+
+    handleReturnFromFlow();
+  </script>
 </body>
 </html>
