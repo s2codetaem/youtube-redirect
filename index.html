@@ -1,20 +1,71 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="vi">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Youtube Redirect</title>
+  <meta charset="UTF-8">
+  <title>S2 Code TaeM Redirect</title>
+  <style>
+    body {
+      background: linear-gradient(135deg, #1a1a1a, #2d2d2d);
+      color: white;
+      font-family: 'Segoe UI', sans-serif;
+      text-align: center;
+      padding: 50px;
+    }
+    h1 {
+      font-size: 2em;
+      margin-bottom: 20px;
+    }
+    .logo {
+      width: 300px;
+      height: 300px;
+      border-radius: 20px;
+      margin-bottom: 20px;
+    }
+    button {
+      padding: 15px 30px;
+      font-size: 1.2em;
+      border: none;
+      border-radius: 10px;
+      background-color: #ff0000;
+      color: white;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+    button:hover {
+      background-color: #cc0000;
+    }
+    #otpForm {
+      display: none;
+      margin-top: 30px;
+    }
+    input[type="text"] {
+      padding: 10px;
+      width: 150px;
+      border-radius: 8px;
+      border: none;
+      margin-right: 10px;
+    }
+    footer {
+      margin-top: 60px;
+      font-size: 0.9em;
+      color: #888;
+    }
+  </style>
 </head>
 <body>
-  <h1>🎵 Nhấn để Follow kênh Youtube S2 Code TaeM</h1>
+  <img src="https://i.imgur.com/W9QFQ23.jpg" class="logo" alt="S2 Logo" />
+  <h1>𝐒𝟐 𝐂𝐨𝐝𝐞 𝐓𝐚𝐞𝐦</h1>
+  <p>🎧 Nhấn vào đây để Follow bạn sẽ được chuyển tới trang đích</p>
   <button onclick="checkRedirect()">👉 Follow</button>
 
-  <div id="otpForm" style="display:none; margin-top: 20px;">
-    <p>🔐 Vượt quá giới hạn! Nhập mã xác thực từ Google Authenticator để tiếp tục:</p>
-    <input type="text" id="otpCode" placeholder="Mã 6 chữ số" />
+  <div id="otpForm">
+    <p>🔐 Bạn đã vượt quá số lần truy cập! Vui lòng nhập mã xác thực để tiếp tục:</p>
+    <input type="text" id="otpCode" placeholder="Nhập mã OTP" />
     <button onclick="verifyOTP()">Mở khóa</button>
-    <p id="otpMessage" style="color:red;"></p>
+    <p id="otpMessage" style="color: red; margin-top: 10px;"></p>
   </div>
+
+  <footer>🅒 𝗖𝗼𝗽𝘆𝗿𝗶𝗴𝗵𝘁 𝗦𝟮 𝗖𝗼𝗱𝗲 𝗧𝗮𝗲𝗺  𝗔𝗹𝗹 𝗿𝗶𝗴𝗵𝘁𝘀 𝗿𝗲𝘀𝗲𝗿𝘃𝗲𝗱.</footer>
 
   <script src="redirect.js"></script>
 </body>
