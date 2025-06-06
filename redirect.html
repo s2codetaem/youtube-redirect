@@ -1,0 +1,32 @@
+particlesJS("particles-js", {
+  particles: {
+    number: { value: 80, density: { enable: true, value_area: 800 } },
+    color: { value: ["#39ff14", "#00f0ff", "#ff00ff"] },
+    shape: { type: "circle" },
+    opacity: { value: 0.5, random: true },
+    size: { value: 3, random: true },
+    line_linked: { enable: true, distance: 150, color: "#39ff14", opacity: 0.4, width: 1 },
+    move: { enable: true, speed: 2, direction: "none", random: true }
+  },
+  interactivity: {
+    detect_on: "canvas",
+    events: { onhover: { enable: true, mode: "repulse" }, onclick: { enable: true, mode: "push" } },
+    modes: { repulse: { distance: 100, duration: 0.4 }, push: { particles_nb: 4 } }
+  }
+});
+
+function generateRedirect() {
+  const destinationUrl = document.getElementById("destinationUrl").value.trim();
+  const generatedUrlDiv = document.getElementById("generatedUrl");
+
+  if (!destinationUrl || !destinationUrl.startsWith("http")) {
+    generatedUrlDiv.innerText = "❌ Vui lòng nhập URL hợp lệ (bắt đầu bằng http hoặc https)";
+    return;
+  }
+
+  // Giả lập tạo URL động (thay bằng API thật nếu có)
+  const uniqueId = Math.random().toString(36).substring(2, 10);
+  const redirectUrl = `${window.location.origin}/flow.html?url=${encodeURIComponent(destinationUrl)}&id=${uniqueId}`;
+  
+  generatedUrlDiv.innerHTML = `✅ URL chuyển hướng: <a href="${redirectUrl}" target="_blank">${redirectUrl}</a>`;
+}
