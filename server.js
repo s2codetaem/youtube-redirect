@@ -10,7 +10,7 @@ app.use(cors());
 app.use(bodyParser.json());
 
 // Mã xác minh cố định
-const FIXED_PASSCODE = "s2taem2025";
+const FIXED_PASSCODE = "081220";
 
 app.post('/verify-passcode', (req, res) => {
   const { code } = req.body;
