@@ -38,7 +38,7 @@
     }
 
     .logo {
-      font-size: 3.5em;
+      font-size: 2.5em; /* Giảm từ 3.5em xuống 2.5em */
       font-weight: 700;
       background: linear-gradient(90deg, #39ff14, #00f0ff, #ff00ff, #ff9500);
       background-size: 400%;
@@ -46,6 +46,8 @@
       -webkit-text-fill-color: transparent;
       animation: neonGlow 4s linear infinite;
       text-shadow: 0 0 20px rgba(57, 255, 20, 0.5);
+      display: inline-block; /* Đảm bảo trên 1 dòng */
+      white-space: nowrap; /* Ngăn xuống dòng */
     }
 
     @keyframes neonGlow {
@@ -178,9 +180,14 @@
 
     footer {
       position: absolute;
-      bottom: 20px;
-      font-size: 0.9em;
+      bottom: 5px;
+      font-size: 0.7em;
       color: #8b949e;
+      text-align: center;
+      width: 100%;
+      padding: 10px 0;
+      background: rgba(22, 27, 34, 0.8);
+      border-top: 1px solid #39ff14;
     }
 
     footer a {
@@ -191,6 +198,11 @@
     footer a:hover {
       color: #00f0ff;
     }
+
+    footer .owner {
+      font-weight: 700;
+      color: #39ff14;
+    }
   </style>
 </head>
 <body>
@@ -200,12 +212,8 @@
   </header>
 
   <div class="container">
-    <h2>💻 Hãy nhấn Follow để tiếp tục</h2>
-    <a href="https://youtube.com/@s2code-music?si=W_GBrdFbU_fGWPkm"
-       target="_blank"
-       class="btn"
-       onclick="return handleFlow();"
-       id="followBtn">▶️ Follow YouTube</a>
+    <h2>💻 Hãy nhấn để tiếp tục</h2>
+    <a id="flowBtn" href="#" target="_blank" class="btn" onclick="return handleFlow();">▶️ Tiếp tục</a>
     <div class="countdown" id="countdown">10</div>
     <div class="note" id="note">⏳ Đang chuyển hướng...</div>
     <div class="otp-box" id="otpBox">
@@ -217,7 +225,7 @@
   </div>
 
   <footer>
-    © 2025 S2 Code Team | <a href="https://x.ai/grok">Powered by xAI</a>
+    <p>Bản quyền thuộc về <span class="owner">S2 Code Team</span> © 2025 | <a href="https://t.me/S2codetaem48">tạ ngọc long </a></p>
   </footer>
 
   <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
@@ -243,6 +251,15 @@
     const note = document.getElementById('note');
     const otpBox = document.getElementById('otpBox');
     const statusBox = document.getElementById('statusBox');
+    const flowBtn = document.getElementById('flowBtn');
+
+    // Lấy URL từ query string
+    const urlParams = new URLSearchParams(window.location.search);
+    const flowUrl = urlParams.get('flow') || "https://youtube.com/@s2code-music?si=W_GBrdFbU_fGWPkm";
+    const destinationUrl = urlParams.get('dest') || "https://voz.ee/s/TycfcCuvX";
+
+    // Gán URL flow vào nút
+    flowBtn.href = flowUrl;
 
     function handleFlow() {
       const accessCount = parseInt(localStorage.getItem("accessCount") || "0") + 1;
@@ -270,8 +287,6 @@
 
         if (time === 0) {
           clearInterval(interval);
-          const urlParams = new URLSearchParams(window.location.search);
-          const destinationUrl = urlParams.get('url') || "https://voz.ee/s/TycfcCuvX";
           window.location.href = destinationUrl;
         }
       }, 1000);
