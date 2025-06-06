@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>S2 Code Team - Tạo Chuyển Hướng</title>
+  <title>𝗧ạ𝗼 𝗖𝗵𝘂𝘆ể𝗻 𝗛ướ𝗻𝗴</title>
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
   <style>
     * {
@@ -38,7 +38,7 @@
     }
 
     .logo {
-      font-size: 3.5em;
+      font-size: 2.5em; /* Giảm từ 3.5em xuống 2.5em */
       font-weight: 700;
       background: linear-gradient(90deg, #39ff14, #00f0ff, #ff00ff, #ff9500);
       background-size: 400%;
@@ -46,6 +46,8 @@
       -webkit-text-fill-color: transparent;
       animation: neonGlow 4s linear infinite;
       text-shadow: 0 0 20px rgba(57, 255, 20, 0.5);
+      display: inline-block; /* Đảm bảo trên 1 dòng */
+      white-space: nowrap; /* Ngăn xuống dòng */
     }
 
     @keyframes neonGlow {
@@ -76,6 +78,22 @@
       to { opacity: 1; transform: translateY(0); }
     }
 
+    input {
+      padding: 12px;
+      border: none;
+      border-radius: 8px;
+      font-size: 1em;
+      background: #21262d;
+      color: #c9d1d9;
+      width: 100%;
+      margin-bottom: 15px;
+    }
+
+    input:focus {
+      outline: none;
+      box-shadow: 0 0 10px rgba(57, 255, 20, 0.5);
+    }
+
     .btn {
       background: linear-gradient(45deg, #39ff14, #00f0ff);
       padding: 15px 40px;
@@ -91,6 +109,7 @@
       overflow: hidden;
       width: 100%;
       margin-bottom: 15px;
+      cursor: pointer;
     }
 
     .btn::before {
@@ -113,44 +132,12 @@
       box-shadow: 0 8px 20px rgba(57, 255, 20, 0.7);
     }
 
-    input {
-      padding: 12px;
-      border: none;
-      border-radius: 8px;
-      font-size: 1em;
-      background: #21262d;
-      color: #c9d1d9;
-      width: 100%;
-      margin-bottom: 15px;
-    }
-
-    input:focus {
-      outline: none;
-      box-shadow: 0 0 10px rgba(57, 255, 20, 0.5);
-    }
-
-    .status {
-      margin-top: 10px;
-      font-size: 1em;
-      color: #ff5555;
-    }
-
-    .generated-url {
-      margin-top: 20px;
-      background: #21262d;
-      padding: 10px;
-      border-radius: 8px;
-      word-break: break-all;
-      color: #39ff14;
-    }
-
-    .countdown {
-      font-size: 4em;
-      font-weight: 700;
-      color: #00f0ff;
-      margin-top: 30px;
-      animation: pulse 1.5s ease-in-out infinite;
+    .loading {
       display: none;
+      font-size: 1.2em;
+      color: #39ff14;
+      margin: 20px 0;
+      animation: pulse 1.5s ease-in-out infinite;
     }
 
     @keyframes pulse {
@@ -158,34 +145,41 @@
       50% { transform: scale(1.1); opacity: 0.8; }
     }
 
-    .note {
-      margin-top: 15px;
+    .copy-section {
+      display: none;
+      margin-top: 20px;
+      text-align: center;
+    }
+
+    .copy-btn {
+      background: linear-gradient(45deg, #00f0ff, #39ff14);
+      padding: 10px 20px;
+      color: #0d1117;
       font-size: 1em;
-      color: #8b949e;
-      display: none;
+      font-weight: 700;
+      border: none;
+      border-radius: 50px;
+      text-decoration: none;
+      transition: transform 0.3s, box-shadow 0.3s;
+      box-shadow: 0 5px 15px rgba(57, 255, 20, 0.5);
+      cursor: pointer;
     }
 
-    .otp-box {
-      margin-top: 30px;
-      display: none;
-      background: rgba(22, 27, 34, 0.8);
-      padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
-      animation: slideIn 0.5s ease;
-      width: 100%;
-    }
-
-    @keyframes slideIn {
-      from { opacity: 0; transform: translateY(50px); }
-      to { opacity: 1; transform: translateY(0); }
+    .copy-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 20px rgba(57, 255, 20, 0.7);
     }
 
     footer {
       position: absolute;
-      bottom: 20px;
-      font-size: 0.9em;
+      bottom: 5px;
+      font-size: 0.7em;
       color: #8b949e;
+      text-align: center;
+      width: 100%;
+      padding: 10px 0;
+      background: rgba(22, 27, 34, 0.8);
+      border-top: 1px solid #39ff14;
     }
 
     footer a {
@@ -201,19 +195,22 @@
 <body>
   <div id="particles-js"></div>
   <header>
-    <h1 class="logo">S2 Code Team</h1>
+    <h1 class="logo">𝗦𝟮 𝗖𝗢𝗗𝗘 𝗧𝗔𝗘𝗠</h1>
   </header>
 
   <div class="container">
-    <h2>💻 Tạo Trang Chuyển Hướng</h2>
-    <a href="flow.html" class="btn">Đi đến trang Flow mẫu</a>
+    <h2>💻 𝗧ạ𝗼 𝘁𝗿𝗮𝗻𝗴 𝗰𝗵𝘂𝘆ể𝗻 𝗵ướ𝗻𝗴</h2>
+    <input type="text" id="flowUrl" placeholder="Nhập URL trang Flow (VD: https://yourdomain.com/flow.html)" />
     <input type="text" id="destinationUrl" placeholder="Nhập URL đích (VD: https://voz.ee/s/TycfcCuvX)" />
-    <button class="btn" onclick="generateRedirect()">Tạo URL Chuyển Hướng</button>
-    <div class="generated-url" id="generatedUrl"></div>
+    <button class="btn" onclick="generateRedirect()">𝗕ắ𝘁 đầ𝘂</button>
+    <div class="loading" id="loading">Đ𝗮𝗻𝗴 𝘁ạ𝗼 𝘂𝗿𝗹 ...</div>
+    <div class="copy-section" id="copySection">
+      <button class="copy-btn" onclick="copyUrl()">𝗦𝗮𝗼 𝗰𝗵é𝗽</button>
+    </div>
   </div>
 
   <footer>
-    © 2025 S2 Code Team | <a href="https://x.ai/grok">Powered by xAI</a>
+    © 𝟮𝟬𝟮𝟱 𝗦𝟮 𝗖𝗼𝗱𝗲 𝗧𝗲𝗮𝗺 | <a href="https://t.me/S2codetaem48">𝗧ạ 𝗡𝗴ọ𝗰 𝗟𝗼𝗻𝗴</a>
   </footer>
 
   <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
@@ -235,20 +232,41 @@
       }
     });
 
-    function generateRedirect() {
-      const destinationUrl = document.getElementById("destinationUrl").value.trim();
-      const generatedUrlDiv = document.getElementById("generatedUrl");
+    let generatedUrl = '';
 
-      if (!destinationUrl || !destinationUrl.startsWith("http")) {
-        generatedUrlDiv.innerText = "❌ Vui lòng nhập URL hợp lệ (bắt đầu bằng http hoặc https)";
+    function generateRedirect() {
+      const flowUrl = document.getElementById("flowUrl").value.trim();
+      const destinationUrl = document.getElementById("destinationUrl").value.trim();
+      const loading = document.getElementById("loading");
+      const copySection = document.getElementById("copySection");
+
+      // Kiểm tra URL hợp lệ
+      if (!flowUrl || !flowUrl.startsWith("http") || !destinationUrl || !destinationUrl.startsWith("http")) {
+        alert("Vui lòng nhập URL hợp lệ (bắt đầu bằng http hoặc https) cho cả hai ô!");
         return;
       }
 
-      // Giả lập tạo URL động (thay bằng API thật nếu có)
-      const uniqueId = Math.random().toString(36).substring(2, 10);
-      const redirectUrl = `${window.location.origin}/flow.html?url=${encodeURIComponent(destinationUrl)}&id=${uniqueId}`;
-      
-      generatedUrlDiv.innerHTML = `✅ URL chuyển hướng: <a href="${redirectUrl}" target="_blank">${redirectUrl}</a>`;
+      // Hiển thị hiệu ứng loading
+      loading.style.display = "block";
+      copySection.style.display = "none";
+
+      // Giả lập tạo URL (thay bằng API thật nếu có)
+      setTimeout(() => {
+        const uniqueId = Math.random().toString(36).substring(2, 10);
+        generatedUrl = `${window.location.origin}/flow.html?flow=${encodeURIComponent(flowUrl)}&dest=${encodeURIComponent(destinationUrl)}&id=${uniqueId}`;
+        
+        // Ẩn loading và hiển thị nút sao chép
+        loading.style.display = "none";
+        copySection.style.display = "block";
+      }, 1500); // Giả lập thời gian xử lý 1.5 giây
+    }
+
+    function copyUrl() {
+      navigator.clipboard.writeText(generatedUrl).then(() => {
+        alert("Đã sao chép URL: " + generatedUrl);
+      }).catch(err => {
+        alert("Lỗi khi sao chép: " + err);
+      });
     }
   </script>
 </body>
