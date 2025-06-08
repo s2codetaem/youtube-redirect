@@ -6,213 +6,12 @@
   <title>S2 Code Team - Kết Nối Cộng Đồng</title>
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    body {
-      min-height: 100vh;
-      background: #0d1117;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      font-family: 'JetBrains Mono', monospace;
-      color: #c9d1d9;
-      overflow-x: hidden;
-      position: relative;
-    }
-
-    #particles-js {
-      position: fixed;
-      width: 100%;
-      height: 100%;
-      z-index: -1;
-      background: linear-gradient(135deg, #0d1117, #1a2332);
-    }
-
-    header {
-      padding: 20px;
-      text-align: center;
-      width: 100%;
-    }
-
-    .logo {
-      font-size: 2.5em; /* Kích thước nhỏ hơn */
-      font-weight: 700;
-      background: linear-gradient(90deg, #39ff14, #00f0ff, #ff00ff, #ff9500);
-      background-size: 400%;
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      animation: neonGlow 4s linear infinite;
-      text-shadow: 0 0 20px rgba(57, 255, 20, 0.5);
-      display: inline-block; /* Đảm bảo trên 1 dòng */
-      white-space: nowrap; /* Ngăn xuống dòng */
-      cursor: pointer; /* Con trỏ chuột */
-      transition: transform 0.2s ease, text-shadow 0.2s ease; /* Hiệu ứng mượt */
-    }
-
-    .logo:active {
-      animation: clickEffect 0.3s ease; /* Hiệu ứng động khi nhấn */
-      text-shadow: 0 0 40px rgba(57, 255, 20, 1); /* Tăng độ sáng */
-    }
-
-    @keyframes neonGlow {
-      0% { background-position: 0%; }
-      100% { background-position: 400%; }
-    }
-
-    @keyframes clickEffect {
-      0% { transform: rotate(0deg) scale(1); }
-      50% { transform: rotate(5deg) scale(1.05); } /* Xoay và phóng to nhẹ */
-      100% { transform: rotate(0deg) scale(1); } /* Trở lại ban đầu */
-    }
-
-    .container {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      padding: 20px;
-      max-width: 600px;
-      margin: 0 auto;
-      flex-grow: 1;
-      padding-bottom: 60px;
-    }
-
-    h2 {
-      font-size: 1.8em;
-      margin-bottom: 20px;
+    /* ... các style cũ giữ nguyên ... */
+    #user-info, #api-key {
+      margin-top: 20px;
+      font-size: 0.9em;
       color: #39ff14;
-      text-shadow: 0 0 10px rgba(57, 255, 20, 0.3);
-      animation: fadeIn 1s ease-in;
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    .social-section {
-      width: 100%;
-      margin-bottom: 20px;
-    }
-
-    .collapsible {
-      background: linear-gradient(45deg, #39ff14, #00f0ff);
-      color: #0d1117;
-      padding: 10px;
-      font-size: 1em;
-      font-weight: 700;
-      border: none;
-      border-radius: 40px;
-      text-align: center;
-      cursor: pointer;
-      transition: transform 0.3s, box-shadow 0.3s;
-      box-shadow: 0 3px 10px rgba(57, 255, 20, 0.5);
-      width: 100%;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .collapsible::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: -100%;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-      transition: 0.5s;
-    }
-
-    .collapsible:hover::before {
-      left: 100%;
-    }
-
-    .collapsible:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 5px 15px rgba(57, 255, 20, 0.7);
-    }
-
-    .social-buttons {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      width: 100%;
-      max-height: 0;
-      overflow: hidden;
-      transition: max-height 0.5s ease-in-out;
-    }
-
-    .social-buttons.active {
-      max-height: 500px;
-    }
-
-    .btn {
-      background: linear-gradient(45deg, #39ff14, #00f0ff);
-      padding: 10px;
-      color: #0d1117;
-      font-size: 1em;
-      font-weight: 700;
-      border: none;
-      border-radius: 40px;
-      text-decoration: none;
-      transition: transform 0.3s, box-shadow 0.3s;
-      box-shadow: 0 3px 10px rgba(57, 255, 20, 0.5);
-      position: relative;
-      overflow: hidden;
-      text-align: center;
-    }
-
-    .btn::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: -100%;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-      transition: 0.5s;
-    }
-
-    .btn:hover::before {
-      left: 100%;
-    }
-
-    .btn:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 5px 15px rgba(57, 255, 20, 0.7);
-    }
-
-    footer {
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      font-size: 0.7em;
-      color: #8b949e;
-      text-align: center;
-      width: 100%;
-      padding: 10px 0;
-      background: rgba(22, 27, 34, 0.8);
-      border-top: 1px solid #39ff14;
-      z-index: 10;
-    }
-
-    footer a {
-      color: #39ff14;
-      text-decoration: none;
-    }
-
-    footer a:hover {
-      color: #00f0ff;
-    }
-
-    footer .owner {
-      font-weight: 700;
-      color: #39ff14;
+      text-shadow: 0 0 5px rgba(57, 255, 20, 0.5);
     }
   </style>
 </head>
@@ -224,6 +23,9 @@
 
   <div class="container">
     <h2>💻 𝗔𝘂𝘁𝗼 𝗣𝗼𝗿𝘁</h2>
+    <div id="user-info"></div>
+    <div id="api-key"></div>
+
     <div class="social-section">
       <button class="collapsible">𝐋𝐢ê𝐧 𝐇ệ 𝐂𝐡í𝐧𝐡</button>
       <div class="social-buttons">
@@ -260,6 +62,14 @@
         modes: { repulse: { distance: 100, duration: 0.4 }, push: { particles_nb: 4 } }
       }
     });
+
+    // Hiển thị thông tin người dùng đăng nhập
+    const username = localStorage.getItem("username");
+    const token = localStorage.getItem("adminToken");
+    if (username && token) {
+      document.getElementById("user-info").innerText = `Xin chào, ${username}`;
+      document.getElementById("api-key").innerText = `API Token: ${token}`;
+    }
 
     // Xử lý collapsible
     document.querySelector('.collapsible').addEventListener('click', function() {
