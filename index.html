@@ -6,7 +6,11 @@
   <title>S2 Code Team - Kết Nối Cộng Đồng</title>
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
   <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
     body {
       min-height: 100vh;
@@ -35,7 +39,7 @@
     }
 
     .logo {
-      font-size: 2.5em;
+      font-size: 2.5em; /* Kích thước nhỏ hơn */
       font-weight: 700;
       background: linear-gradient(90deg, #39ff14, #00f0ff, #ff00ff, #ff9500);
       background-size: 400%;
@@ -43,14 +47,15 @@
       -webkit-text-fill-color: transparent;
       animation: neonGlow 4s linear infinite;
       text-shadow: 0 0 20px rgba(57, 255, 20, 0.5);
-      white-space: nowrap;
-      cursor: pointer;
-      transition: transform 0.2s ease, text-shadow 0.2s ease;
+      display: inline-block; /* Đảm bảo trên 1 dòng */
+      white-space: nowrap; /* Ngăn xuống dòng */
+      cursor: pointer; /* Con trỏ chuột */
+      transition: transform 0.2s ease, text-shadow 0.2s ease; /* Hiệu ứng mượt */
     }
 
     .logo:active {
-      animation: clickEffect 0.3s ease;
-      text-shadow: 0 0 40px rgba(57, 255, 20, 1);
+      animation: clickEffect 0.3s ease; /* Hiệu ứng động khi nhấn */
+      text-shadow: 0 0 40px rgba(57, 255, 20, 1); /* Tăng độ sáng */
     }
 
     @keyframes neonGlow {
@@ -60,8 +65,8 @@
 
     @keyframes clickEffect {
       0% { transform: rotate(0deg) scale(1); }
-      50% { transform: rotate(5deg) scale(1.05); }
-      100% { transform: rotate(0deg) scale(1); }
+      50% { transform: rotate(5deg) scale(1.05); } /* Xoay và phóng to nhẹ */
+      100% { transform: rotate(0deg) scale(1); } /* Trở lại ban đầu */
     }
 
     .container {
@@ -79,7 +84,6 @@
 
     h2 {
       font-size: 1.8em;
-      margin-top: 10px;
       margin-bottom: 20px;
       color: #39ff14;
       text-shadow: 0 0 10px rgba(57, 255, 20, 0.3);
@@ -89,6 +93,62 @@
     @keyframes fadeIn {
       from { opacity: 0; transform: translateY(20px); }
       to { opacity: 1; transform: translateY(0); }
+    }
+
+    .social-section {
+      width: 100%;
+      margin-bottom: 20px;
+    }
+
+    .collapsible {
+      background: linear-gradient(45deg, #39ff14, #00f0ff);
+      color: #0d1117;
+      padding: 10px;
+      font-size: 1em;
+      font-weight: 700;
+      border: none;
+      border-radius: 40px;
+      text-align: center;
+      cursor: pointer;
+      transition: transform 0.3s, box-shadow 0.3s;
+      box-shadow: 0 3px 10px rgba(57, 255, 20, 0.5);
+      width: 100%;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .collapsible::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+      transition: 0.5s;
+    }
+
+    .collapsible:hover::before {
+      left: 100%;
+    }
+
+    .collapsible:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(57, 255, 20, 0.7);
+    }
+
+    .social-buttons {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      width: 100%;
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.5s ease-in-out;
+    }
+
+    .social-buttons.active {
+      max-height: 500px;
     }
 
     .btn {
@@ -105,8 +165,6 @@
       position: relative;
       overflow: hidden;
       text-align: center;
-      display: block;
-      margin: 5px 0;
     }
 
     .btn::before {
@@ -156,77 +214,28 @@
       font-weight: 700;
       color: #39ff14;
     }
-
-    #menuToggle {
-      font-size: 0.9em;
-      padding: 10px;
-      background: linear-gradient(45deg, #39ff14, #00f0ff);
-      border: none;
-      border-radius: 50%;
-      color: #0d1117;
-      font-weight: bold;
-      width: 60px;
-      height: 60px;
-      cursor: pointer;
-    }
-
-    #menuContainer {
-      position: fixed;
-      top: 80px; /* Dời xuống dưới để không che logo */
-      left: 20px;
-      z-index: 1000;
-      text-align: center;
-    }
-
-    #dropdownMenu {
-      display: none;
-      background: #161b22;
-      border: 1px solid #39ff14;
-      border-radius: 8px;
-      padding: 10px;
-      margin-top: 10px;
-      min-width: 180px;
-      opacity: 0;
-      transform: translateY(-10px);
-      transition: all 0.3s ease;
-    }
-
-    #dropdownMenu.show {
-      display: block;
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    #dropdownMenu a:last-child {
-      color: red;
-    }
   </style>
 </head>
 <body>
   <div id="particles-js"></div>
-
-  <!-- MENU NÚT TRÒN -->
-  <div id="menuContainer">
-    <button id="menuToggle">Menu</button>
-    <div id="dropdownMenu">
-      <a href="https://www.facebook.com/s2code08122000?mibextid=wwXIfr" target="_blank" class="btn">Facebook 1</a>
-      <a href="https://www.facebook.com/share/15ERMDr9kR/?mibextid=wwXIfr" target="_blank" class="btn">Facebook 2</a>
-      <a href="https://www.tiktok.com/@s2codetaem.4.0?_t=ZS-8wywr1rXpaa&_r=1" target="_blank" class="btn">TikTok</a>
-      <a href="tel:0877797175" class="btn">Zalo</a>
-      <a href="https://youtube.com/@s2code-music?si=W_GBrdFbU_fGWPkm" target="_blank" class="btn">YouTube</a>
-      <a href="https://t.me/S2codetaem48" target="_blank" class="btn">Telegram</a>
-      <a href="redirect.html" class="btn">Tạo liên kết chuyển hướng</a>
-      <a href="#" class="btn">API</a>
-      <a href="#" class="btn">Đăng xuất</a>
-    </div>
-  </div>
-
   <header>
     <h1 class="logo">𝐒𝟐 𝐂𝐎𝐃𝐄 𝐓𝐀𝐄𝐌</h1>
   </header>
 
   <div class="container">
-    <h2>🎉 Chào mừng đến với S2 Code Taem 🎉</h2>
+    <h2>💻 𝗔𝘂𝘁𝗼 𝗣𝗼𝗿𝘁</h2>
+    <div class="social-section">
+      <button class="collapsible">𝐋𝐢ê𝐧 𝐇ệ 𝐂𝐡í𝐧𝐡</button>
+      <div class="social-buttons">
+        <a href="https://www.facebook.com/s2code08122000?mibextid=wwXIfr" target="_blank" class="btn">𝐅𝐚𝐜𝐞𝐛𝐨𝐨𝐤 1</a>
+        <a href="https://www.facebook.com/share/15ERMDr9kR/?mibextid=wwXIfr" target="_blank" class="btn">𝐅𝐚𝐜𝐞𝐛𝐨𝐨𝐤 2</a>
+        <a href="https://www.tiktok.com/@s2codetaem.4.0?_t=ZS-8wywr1rXpaa&_r=1" target="_blank" class="btn">𝗧𝗶𝗸𝗧𝗼𝗸</a>
+        <a href="tel:0877797175" class="btn">𝗭𝗮𝗹𝗼 </a>
+        <a href="https://youtube.com/@s2code-music?si=W_GBrdFbU_fGWPkm" target="_blank" class="btn">𝗬𝗼𝘂𝘁𝗼𝗯𝗲</a>
+        <a href="https://t.me/S2codetaem48" target="_blank" class="btn">𝗧𝗲𝗹𝗲𝗴𝗿𝗮𝗺</a>
+      </div>
+    </div>
+    <a href="redirect.html" class="btn">𝗧ạ𝗼 𝗹𝗶𝗻𝗸 𝗰𝗵𝘂𝘆ể𝗻 𝗵ướ𝗻𝗴</a>
   </div>
 
   <footer>
@@ -252,11 +261,10 @@
       }
     });
 
-    // Toggle menu với hiệu ứng cuộn mượt
-    const menuToggle = document.getElementById('menuToggle');
-    const dropdown = document.getElementById('dropdownMenu');
-    menuToggle.addEventListener('click', function () {
-      dropdown.classList.toggle('show');
+    // Xử lý collapsible
+    document.querySelector('.collapsible').addEventListener('click', function() {
+      const content = this.nextElementSibling;
+      content.classList.toggle('active');
     });
   </script>
 </body>
