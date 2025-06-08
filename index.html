@@ -1,29 +1,9 @@
  (cd "$(git rev-parse --show-toplevel)" && git apply --3way <<'EOF' 
 diff --git a/index.html b/index.html
-index 4193bd4d9b9275417fab95f37842369b2aa5cd5e..8bae43afc18e9d2a935022bc57f4df2c5a04cecd 100644
+index 4193bd4d9b9275417fab95f37842369b2aa5cd5e..953298ccde7c9c858144e553450a89e3f28c17ae 100644
 --- a/index.html
 +++ b/index.html
-@@ -1,32 +1,37 @@
- <!DOCTYPE html>
- <html lang="vi">
- <head>
-   <meta charset="UTF-8">
-   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   <title>S2 Code Team - Kết Nối Cộng Đồng</title>
-   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
-+  <script>
-+    if (!localStorage.getItem('adminToken')) {
-+      window.location.href = 'login.html';
-+    }
-+  </script>
-   <style>
-     * {
-       margin: 0;
-       padding: 0;
-       box-sizing: border-box;
-     }
- 
-     body {
+@@ -16,50 +16,89 @@
        min-height: 100vh;
        background: #0d1117;
        display: flex;
@@ -41,6 +21,258 @@ index 4193bd4d9b9275417fab95f37842369b2aa5cd5e..8bae43afc18e9d2a935022bc57f4df2c
        height: 100%;
        z-index: -1;
        background: linear-gradient(135deg, #0d1117, #1a2332);
+     }
+ 
+     header {
+       padding: 20px;
+       text-align: center;
+       width: 100%;
+     }
+ 
++    .menu {
++      position: fixed;
++      top: 20px;
++      left: 20px;
++      z-index: 20;
++      display: flex;
++      flex-direction: column;
++      align-items: flex-start;
++    }
++
++    .menu-btn {
++      background: transparent;
++      border: none;
++      color: #39ff14;
++      font-size: 2em;
++      cursor: pointer;
++      line-height: 1;
++    }
++
++    .menu-content {
++      display: none;
++      flex-direction: column;
++      gap: 10px;
++      margin-top: 10px;
++      background: rgba(22, 27, 34, 0.95);
++      padding: 10px;
++      border: 1px solid #39ff14;
++      border-radius: 10px;
++    }
++
++    .menu.active .menu-content {
++      display: flex;
++    }
++
++    .menu-content a,
++    .menu-content button {
++      width: 160px;
++    }
++
+     .logo {
+       font-size: 2.5em; /* Kích thước nhỏ hơn */
+       font-weight: 700;
+       background: linear-gradient(90deg, #39ff14, #00f0ff, #ff00ff, #ff9500);
+       background-size: 400%;
+       -webkit-background-clip: text;
+       -webkit-text-fill-color: transparent;
+       animation: neonGlow 4s linear infinite;
+       text-shadow: 0 0 20px rgba(57, 255, 20, 0.5);
+       display: inline-block; /* Đảm bảo trên 1 dòng */
+       white-space: nowrap; /* Ngăn xuống dòng */
+       cursor: pointer; /* Con trỏ chuột */
+       transition: transform 0.2s ease, text-shadow 0.2s ease; /* Hiệu ứng mượt */
+     }
+ 
+     .logo:active {
+       animation: clickEffect 0.3s ease; /* Hiệu ứng động khi nhấn */
+       text-shadow: 0 0 40px rgba(57, 255, 20, 1); /* Tăng độ sáng */
+     }
+ 
+     @keyframes neonGlow {
+       0% { background-position: 0%; }
+       100% { background-position: 400%; }
+     }
+ 
+@@ -73,53 +112,52 @@
+       display: flex;
+       flex-direction: column;
+       align-items: center;
+       justify-content: center;
+       text-align: center;
+       padding: 20px;
+       max-width: 600px;
+       margin: 0 auto;
+       flex-grow: 1;
+       padding-bottom: 60px;
+     }
+ 
+     h2 {
+       font-size: 1.8em;
+       margin-bottom: 20px;
+       color: #39ff14;
+       text-shadow: 0 0 10px rgba(57, 255, 20, 0.3);
+       animation: fadeIn 1s ease-in;
+     }
+ 
+     @keyframes fadeIn {
+       from { opacity: 0; transform: translateY(20px); }
+       to { opacity: 1; transform: translateY(0); }
+     }
+ 
+-    .social-section {
+-      width: 100%;
+-      margin-bottom: 20px;
++    .intro {
++      margin-top: 10px;
+     }
+ 
+     .collapsible {
+       background: linear-gradient(45deg, #39ff14, #00f0ff);
+       color: #0d1117;
+       padding: 10px;
+       font-size: 1em;
+       font-weight: 700;
+       border: none;
+       border-radius: 40px;
+       text-align: center;
+       cursor: pointer;
+       transition: transform 0.3s, box-shadow 0.3s;
+       box-shadow: 0 3px 10px rgba(57, 255, 20, 0.5);
+       width: 100%;
+       position: relative;
+       overflow: hidden;
+     }
+ 
+     .collapsible::before {
+       content: '';
+       position: absolute;
+       top: 0;
+       left: -100%;
+       width: 100%;
+@@ -192,80 +230,115 @@
+       bottom: 0;
+       left: 0;
+       font-size: 0.7em;
+       color: #8b949e;
+       text-align: center;
+       width: 100%;
+       padding: 10px 0;
+       background: rgba(22, 27, 34, 0.8);
+       border-top: 1px solid #39ff14;
+       z-index: 10;
+     }
+ 
+     footer a {
+       color: #39ff14;
+       text-decoration: none;
+     }
+ 
+     footer a:hover {
+       color: #00f0ff;
+     }
+ 
+     footer .owner {
+       font-weight: 700;
+       color: #39ff14;
+     }
++
++    /* Responsive adjustments for mobile screens */
++    @media (max-width: 600px) {
++      .logo {
++        font-size: 2em;
++      }
++      h2 {
++        font-size: 1.5em;
++      }
++      .btn, .collapsible, .menu-content a, .menu-content button {
++        font-size: 0.9em;
++        padding: 8px;
++      }
++      .container {
++        padding: 15px;
++      }
++      footer {
++        position: static;
++      }
++      .menu-btn {
++        font-size: 1.5em;
++      }
++    }
+   </style>
+ </head>
+ <body>
+   <div id="particles-js"></div>
+-  <header>
+-    <h1 class="logo">𝐒𝟐 𝐂𝐎𝐃𝐄 𝐓𝐀𝐄𝐌</h1>
+-  </header>
+ 
+-  <div class="container">
+-    <h2>💻 𝗔𝘂𝘁𝗼 𝗣𝗼𝗿𝘁</h2>
+-    <div class="social-section">
++  <div class="menu">
++    <button id="menu-toggle" class="menu-btn">&#8942;</button>
++    <div class="menu-content">
++      <a href="index.html" class="btn">Home</a>
+       <button class="collapsible">𝐋𝐢ê𝐧 𝐇ệ 𝐂𝐡í𝐧𝐡</button>
+       <div class="social-buttons">
+         <a href="https://www.facebook.com/s2code08122000?mibextid=wwXIfr" target="_blank" class="btn">𝐅𝐚𝐜𝐞𝐛𝐨𝐨𝐤 1</a>
+         <a href="https://www.facebook.com/share/15ERMDr9kR/?mibextid=wwXIfr" target="_blank" class="btn">𝐅𝐚𝐜𝐞𝐛𝐨𝐨𝐤 2</a>
+         <a href="https://www.tiktok.com/@s2codetaem.4.0?_t=ZS-8wywr1rXpaa&_r=1" target="_blank" class="btn">𝗧𝗶𝗸𝗧𝗼𝗸</a>
+         <a href="tel:0877797175" class="btn">𝗭𝗮𝗹𝗼 </a>
+         <a href="https://youtube.com/@s2code-music?si=W_GBrdFbU_fGWPkm" target="_blank" class="btn">𝗬𝗼𝘂𝘁𝗼𝗯𝗲</a>
+         <a href="https://t.me/S2codetaem48" target="_blank" class="btn">𝗧𝗲𝗹𝗲𝗴𝗿𝗮𝗺</a>
+       </div>
++      <a href="redirect.html" class="btn">𝗧ạ𝗼 𝗹𝗶𝗻𝗸 𝗰𝗵𝘂𝘆ể𝗻 𝗵ướ𝗻𝗴</a>
+     </div>
+-    <a href="redirect.html" class="btn">𝗧ạ𝗼 𝗹𝗶𝗻𝗸 𝗰𝗵𝘂𝘆ể𝗻 𝗵ướ𝗻𝗴</a>
++  </div>
++
++  <header>
++    <h1 class="logo">𝐒𝟐 𝐂𝐎𝐃𝐄 𝐓𝐀𝐄𝐌</h1>
++  </header>
++
++  <div class="container">
++    <h2>Chào mừng</h2>
++    <p class="intro">Giới thiệu 𝗔𝘂𝘁𝗼 𝗣𝗼𝗿𝘁</p>
+   </div>
+ 
+   <footer>
+     <p>Bản quyền thuộc về <span class="owner">𝗦𝟮 𝗖𝗼𝗱𝗲 𝗧𝗮𝗲𝗺</span> © 𝟮𝟬𝟮𝟱 | <a href="https://t.me/S2codetaem48">𝗧ạ 𝗡𝗴ọ𝗰 𝗟𝗼𝗻𝗴 </a></p>
+   </footer>
+ 
+   <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+   <script>
+     particlesJS("particles-js", {
+       particles: {
+         number: { value: 80, density: { enable: true, value_area: 800 } },
+         color: { value: ["#39ff14", "#00f0ff", "#ff00ff"] },
+         shape: { type: "circle" },
+         opacity: { value: 0.5, random: true },
+         size: { value: 3, random: true },
+         line_linked: { enable: true, distance: 150, color: "#39ff14", opacity: 0.4, width: 1 },
+         move: { enable: true, speed: 2, direction: "none", random: true }
+       },
+       interactivity: {
+         detect_on: "canvas",
+         events: { onhover: { enable: true, mode: "repulse" }, onclick: { enable: true, mode: "push" } },
+         modes: { repulse: { distance: 100, duration: 0.4 }, push: { particles_nb: 4 } }
+       }
+     });
+ 
++    // Hiển thị menu 3 chấm
++    document.getElementById('menu-toggle').addEventListener('click', function() {
++      document.querySelector('.menu').classList.toggle('active');
++    });
++
+     // Xử lý collapsible
+     document.querySelector('.collapsible').addEventListener('click', function() {
+       const content = this.nextElementSibling;
+       content.classList.toggle('active');
+     });
+   </script>
+ </body>
+ </html>
+\ No newline at end of file
  
 EOF
 )
