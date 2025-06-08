@@ -1,13 +1,12 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>S2 Code Team - Ghi Chú</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>S2 Code Team - Kết Nối Cộng Đồng</title>
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
-
     body {
       min-height: 100vh;
       background: #0d1117;
@@ -19,13 +18,18 @@
       overflow-x: hidden;
       position: relative;
     }
-
+    #particles-js {
+      position: fixed;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      background: linear-gradient(135deg, #0d1117, #1a2332);
+    }
     header {
       padding: 20px;
       text-align: center;
       width: 100%;
     }
-
     .logo {
       font-size: 2.5em;
       font-weight: 700;
@@ -37,13 +41,12 @@
       text-shadow: 0 0 20px rgba(57, 255, 20, 0.5);
       white-space: nowrap;
       cursor: pointer;
+      transition: transform 0.2s ease, text-shadow 0.2s ease;
     }
-
     @keyframes neonGlow {
       0% { background-position: 0%; }
       100% { background-position: 400%; }
     }
-
     .container {
       display: flex;
       flex-direction: column;
@@ -56,13 +59,13 @@
       flex-grow: 1;
       padding-bottom: 60px;
     }
-
     h2 {
-      font-size: 1.5em;
-      margin: 10px 0;
+      font-size: 1.8em;
+      margin-top: 10px;
+      margin-bottom: 20px;
       color: #39ff14;
+      text-shadow: 0 0 10px rgba(57, 255, 20, 0.3);
     }
-
     .btn {
       background: linear-gradient(45deg, #39ff14, #00f0ff);
       padding: 10px;
@@ -77,42 +80,98 @@
       position: relative;
       overflow: hidden;
       text-align: center;
-      display: inline-block;
-      margin-top: 10px;
-      cursor: pointer;
+      display: block;
+      margin: 5px 0;
     }
-
     .btn:hover {
       transform: translateY(-2px);
       box-shadow: 0 5px 15px rgba(57, 255, 20, 0.7);
     }
-
-    textarea {
+    footer {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      font-size: 0.7em;
+      color: #8b949e;
+      text-align: center;
       width: 100%;
+      padding: 10px 0;
+      background: rgba(22, 27, 34, 0.8);
+      border-top: 1px solid #39ff14;
+      z-index: 10;
+    }
+    footer a {
+      color: #39ff14;
+      text-decoration: none;
+    }
+    footer a:hover {
+      color: #00f0ff;
+    }
+    footer .owner {
+      font-weight: 700;
+      color: #39ff14;
+    }
+    #menuToggle {
+      font-size: 0.9em;
       padding: 10px;
-      border-radius: 10px;
-      font-family: monospace;
-      resize: vertical;
+      background: linear-gradient(45deg, #39ff14, #00f0ff);
+      border: none;
+      border-radius: 50%;
+      color: #0d1117;
+      font-weight: bold;
+      width: 60px;
+      height: 60px;
+      cursor: pointer;
+    }
+    #menuContainer {
+      position: fixed;
+      top: 80px;
+      left: 20px;
+      z-index: 1000;
+      text-align: center;
+    }
+    #dropdownMenu {
+      display: none;
       background: #161b22;
       border: 1px solid #39ff14;
-      color: #c9d1d9;
-      margin-bottom: 10px;
+      border-radius: 8px;
+      padding: 10px;
+      margin-top: 10px;
+      min-width: 180px;
+      opacity: 0;
+      transform: translateY(-10px);
+      transition: all 0.3s ease;
     }
-
-    #noteLink input {
-      width: 100%;
-      padding: 8px;
-      margin-top: 8px;
-      border-radius: 6px;
-      border: none;
-      font-family: monospace;
-      background: #0d1117;
-      color: #39ff14;
-      text-align: center;
+    #dropdownMenu.show {
+      display: block;
+      opacity: 1;
+      transform: translateY(0);
+    }
+    #dropdownMenu a:last-child {
+      color: red;
     }
   </style>
 </head>
 <body>
+  <div id="particles-js"></div>
+
+  <!-- MENU NÚT TRÒN -->
+  <div id="menuContainer">
+    <button id="menuToggle">Menu</button>
+    <div id="dropdownMenu">
+      <a href="https://www.facebook.com/s2code08122000?mibextid=wwXIfr" target="_blank" class="btn">Facebook 1</a>
+      <a href="https://www.facebook.com/share/15ERMDr9kR/?mibextid=wwXIfr" target="_blank" class="btn">Facebook 2</a>
+      <a href="https://www.tiktok.com/@s2codetaem.4.0?_t=ZS-8wywr1rXpaa&_r=1" target="_blank" class="btn">TikTok</a>
+      <a href="tel:0877797175" class="btn">Zalo</a>
+      <a href="https://youtube.com/@s2code-music?si=W_GBrdFbU_fGWPkm" target="_blank" class="btn">YouTube</a>
+      <a href="https://t.me/S2codetaem48" target="_blank" class="btn">Telegram</a>
+      <a href="redirect.html" class="btn">Tạo liên kết chuyển hướng</a>
+      <a href="note.html" class="btn">Ghi chú</a> <!-- Dẫn sang trang tạo ghi chú -->
+      <a href="#" class="btn">API</a>
+      <a href="#" class="btn">Đăng xuất</a>
+    </div>
+  </div>
+
   <header>
     <h1 class="logo">𝐒𝟐 𝐂𝐎𝐃𝐄 𝐓𝐀𝐄𝐌</h1>
   </header>
@@ -121,42 +180,31 @@
     <h2>🎉 Chào mừng đến với S2 Code Taem 🎉</h2>
   </div>
 
-  <div class="container" id="note-section">
-    <h2>📝 Tạo ghi chú</h2>
-    <textarea id="noteInput" rows="6" placeholder="Nhập nội dung ghi chú tại đây..."></textarea>
-    <button class="btn" id="saveNoteBtn">Lưu ghi chú</button>
-    <div id="noteLink"></div>
-  </div>
+  <footer>
+    <p>Bản quyền thuộc về <span class="owner">𝗦𝟮 𝗖𝗼𝗱𝗲 𝗧𝗮𝗲𝗺</span> © 𝟮𝟬𝟮𝟱 | <a href="https://t.me/S2codetaem48">𝗧ạ 𝗡𝗴ọ𝗰 𝗟𝗼𝗻𝗴 </a></p>
+  </footer>
 
+  <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
   <script>
-    // Lưu ghi chú vào localStorage và tạo liên kết chia sẻ
-    document.getElementById('saveNoteBtn').addEventListener('click', () => {
-      const content = document.getElementById('noteInput').value.trim();
-      if (!content) {
-        alert("Vui lòng nhập nội dung ghi chú.");
-        return;
+    particlesJS("particles-js", {
+      particles: {
+        number: { value: 80, density: { enable: true, value_area: 800 } },
+        color: { value: ["#39ff14", "#00f0ff", "#ff00ff"] },
+        shape: { type: "circle" },
+        opacity: { value: 0.5, random: true },
+        size: { value: 3, random: true },
+        line_linked: { enable: true, distance: 150, color: "#39ff14", opacity: 0.4, width: 1 },
+        move: { enable: true, speed: 2, direction: "none", random: true }
+      },
+      interactivity: {
+        detect_on: "canvas",
+        events: { onhover: { enable: true, mode: "repulse" }, onclick: { enable: true, mode: "push" } },
+        modes: { repulse: { distance: 100, duration: 0.4 }, push: { particles_nb: 4 } }
       }
-      const noteId = 'note-' + Math.random().toString(36).substr(2, 6);
-      localStorage.setItem(noteId, content);
-      const noteUrl = `${location.origin}${location.pathname}#${noteId}`;
-      document.getElementById('noteLink').innerHTML = `
-        ✅ Ghi chú đã lưu!<br/>
-        <input value="${noteUrl}" onclick="this.select()" readonly />
-      `;
     });
 
-    // Khi truy cập từ liên kết có #note-xxxx → hiển thị ghi chú
-    window.addEventListener('load', () => {
-      const hash = location.hash.replace('#', '');
-      if (hash.startsWith('note-')) {
-        const saved = localStorage.getItem(hash);
-        if (saved) {
-          document.getElementById('noteInput').value = saved;
-          document.getElementById('noteLink').innerHTML = `
-            🔁 Ghi chú đang xem từ liên kết: <strong>${hash}</strong>
-          `;
-        }
-      }
+    document.getElementById('menuToggle').addEventListener('click', function () {
+      document.getElementById('dropdownMenu').classList.toggle('show');
     });
   </script>
 </body>
