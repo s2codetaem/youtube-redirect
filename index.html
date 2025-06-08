@@ -38,6 +38,45 @@
       width: 100%;
     }
 
+    .menu {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      z-index: 20;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .menu-btn {
+      background: transparent;
+      border: none;
+      color: #39ff14;
+      font-size: 2em;
+      cursor: pointer;
+      line-height: 1;
+    }
+
+    .menu-content {
+      display: none;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 10px;
+      background: rgba(22, 27, 34, 0.95);
+      padding: 10px;
+      border: 1px solid #39ff14;
+      border-radius: 10px;
+    }
+
+    .menu.active .menu-content {
+      display: flex;
+    }
+
+    .menu-content a,
+    .menu-content button {
+      width: 160px;
+    }
+
     .logo {
       font-size: 2.5em; /* Kích thước nhỏ hơn */
       font-weight: 700;
@@ -95,9 +134,8 @@
       to { opacity: 1; transform: translateY(0); }
     }
 
-    .social-section {
-      width: 100%;
-      margin-bottom: 20px;
+    .intro {
+      margin-top: 10px;
     }
 
     .collapsible {
@@ -214,17 +252,38 @@
       font-weight: 700;
       color: #39ff14;
     }
+
+    /* Responsive adjustments for mobile screens */
+    @media (max-width: 600px) {
+      .logo {
+        font-size: 2em;
+      }
+      h2 {
+        font-size: 1.5em;
+      }
+      .btn, .collapsible, .menu-content a, .menu-content button {
+        font-size: 0.9em;
+        padding: 8px;
+      }
+      .container {
+        padding: 15px;
+      }
+      footer {
+        position: static;
+      }
+      .menu-btn {
+        font-size: 1.5em;
+      }
+    }
   </style>
 </head>
 <body>
   <div id="particles-js"></div>
-  <header>
-    <h1 class="logo">𝐒𝟐 𝐂𝐎𝐃𝐄 𝐓𝐀𝐄𝐌</h1>
-  </header>
 
-  <div class="container">
-    <h2>💻 𝗔𝘂𝘁𝗼 𝗣𝗼𝗿𝘁</h2>
-    <div class="social-section">
+  <div class="menu">
+    <button id="menu-toggle" class="menu-btn">&#8942;</button>
+    <div class="menu-content">
+      <a href="index.html" class="btn">Home</a>
       <button class="collapsible">𝐋𝐢ê𝐧 𝐇ệ 𝐂𝐡í𝐧𝐡</button>
       <div class="social-buttons">
         <a href="https://www.facebook.com/s2code08122000?mibextid=wwXIfr" target="_blank" class="btn">𝐅𝐚𝐜𝐞𝐛𝐨𝐨𝐤 1</a>
@@ -234,8 +293,17 @@
         <a href="https://youtube.com/@s2code-music?si=W_GBrdFbU_fGWPkm" target="_blank" class="btn">𝗬𝗼𝘂𝘁𝗼𝗯𝗲</a>
         <a href="https://t.me/S2codetaem48" target="_blank" class="btn">𝗧𝗲𝗹𝗲𝗴𝗿𝗮𝗺</a>
       </div>
+      <a href="redirect.html" class="btn">𝗧ạ𝗼 𝗹𝗶𝗻𝗸 𝗰𝗵𝘂𝘆ể𝗻 𝗵ướ𝗻𝗴</a>
     </div>
-    <a href="redirect.html" class="btn">𝗧ạ𝗼 𝗹𝗶𝗻𝗸 𝗰𝗵𝘂𝘆ể𝗻 𝗵ướ𝗻𝗴</a>
+  </div>
+
+  <header>
+    <h1 class="logo">𝐒𝟐 𝐂𝐎𝐃𝐄 𝐓𝐀𝐄𝐌</h1>
+  </header>
+
+  <div class="container">
+    <h2>Chào mừng</h2>
+    <p class="intro">Giới thiệu 𝗔𝘂𝘁𝗼 𝗣𝗼𝗿𝘁</p>
   </div>
 
   <footer>
@@ -259,6 +327,11 @@
         events: { onhover: { enable: true, mode: "repulse" }, onclick: { enable: true, mode: "push" } },
         modes: { repulse: { distance: 100, duration: 0.4 }, push: { particles_nb: 4 } }
       }
+    });
+
+    // Hiển thị menu 3 chấm
+    document.getElementById('menu-toggle').addEventListener('click', function() {
+      document.querySelector('.menu').classList.toggle('active');
     });
 
     // Xử lý collapsible
