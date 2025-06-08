@@ -6,11 +6,7 @@
   <title>S2 Code Team - Kết Nối Cộng Đồng</title>
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
 
     body {
       min-height: 100vh;
@@ -47,7 +43,6 @@
       -webkit-text-fill-color: transparent;
       animation: neonGlow 4s linear infinite;
       text-shadow: 0 0 20px rgba(57, 255, 20, 0.5);
-      display: inline-block;
       white-space: nowrap;
       cursor: pointer;
       transition: transform 0.2s ease, text-shadow 0.2s ease;
@@ -111,6 +106,7 @@
       overflow: hidden;
       text-align: center;
       display: block;
+      margin: 5px 0;
     }
 
     .btn::before {
@@ -161,9 +157,8 @@
       color: #39ff14;
     }
 
-    /* Dropdown menu */
     #menuToggle {
-      font-size: 1.5em;
+      font-size: 2em;
       background: none;
       border: none;
       color: #39ff14;
@@ -177,18 +172,14 @@
       border-radius: 8px;
       padding: 10px;
       margin-top: 5px;
-      min-width: 160px;
+      min-width: 180px;
     }
 
     #menuContainer {
       position: fixed;
-      top: 10px;
-      left: 10px;
+      bottom: 20px;
+      left: 20px;
       z-index: 1000;
-    }
-
-    #dropdownMenu a {
-      margin: 5px 0;
     }
 
     #dropdownMenu a:last-child {
@@ -199,7 +190,7 @@
 <body>
   <div id="particles-js"></div>
 
-  <!-- Menu ba chấm -->
+  <!-- MENU BA CHẤM GÓC DƯỚI TRÁI -->
   <div id="menuContainer">
     <button id="menuToggle">⋮</button>
     <div id="dropdownMenu">
@@ -209,6 +200,7 @@
       <a href="tel:0877797175" class="btn">Zalo</a>
       <a href="https://youtube.com/@s2code-music?si=W_GBrdFbU_fGWPkm" target="_blank" class="btn">YouTube</a>
       <a href="https://t.me/S2codetaem48" target="_blank" class="btn">Telegram</a>
+      <a href="redirect.html" class="btn">Tạo liên kết chuyển hướng</a>
       <a href="#" class="btn">API</a>
       <a href="#" class="btn">Đăng xuất</a>
     </div>
@@ -218,7 +210,6 @@
     <h1 class="logo">𝐒𝟐 𝐂𝐎𝐃𝐄 𝐓𝐀𝐄𝐌</h1>
   </header>
 
-  <!-- Nội dung chính -->
   <div class="container">
     <h2>🎉 Chào mừng đến với S2 Code Taem 🎉</h2>
   </div>
@@ -229,7 +220,6 @@
 
   <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
   <script>
-    // particles.js
     particlesJS("particles-js", {
       particles: {
         number: { value: 80, density: { enable: true, value_area: 800 } },
@@ -247,7 +237,7 @@
       }
     });
 
-    // Dropdown menu toggle
+    // Toggle dropdown
     document.getElementById('menuToggle').addEventListener('click', function () {
       const menu = document.getElementById('dropdownMenu');
       menu.style.display = (menu.style.display === 'none' || menu.style.display === '') ? 'block' : 'none';
