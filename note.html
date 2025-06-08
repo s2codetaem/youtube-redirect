@@ -19,16 +19,15 @@
       color: #39ff14;
       text-shadow: 0 0 10px #39ff14;
     }
-    textarea {
+    input, textarea {
       width: 100%;
       max-width: 600px;
-      height: 200px;
       background: #161b22;
       border: 1px solid #39ff14;
       color: #c9d1d9;
       padding: 10px;
       border-radius: 10px;
-      margin-top: 20px;
+      margin-top: 10px;
       font-family: monospace;
     }
     .btn {
@@ -58,34 +57,73 @@
 </head>
 <body>
   <h1>📝 Tạo Ghi Chú</h1>
-  <textarea id="noteInput" placeholder="Nhập ghi chú tại đây..."></textarea>
+
+  <input type="text" id="noteTitle" placeholder="Nhập tên ghi chú" required />
+  <textarea id="noteInput" rows="6" placeholder="Nhập nội dung ghi chú..."></textarea>
+  <input type="password" id="notePassword" placeholder="Mật khẩu (không bắt buộc)" />
+
   <button class="btn" id="saveNoteBtn">Lưu ghi chú</button>
   <div id="noteLink"></div>
 
   <script>
-    document.getElementById('saveNoteBtn').addEventListener('click', () => {
-      const content = document.getElementById('noteInput').value.trim();
-      if (!content) {
-        alert("Vui lòng nhập nội dung.");
+    const titleInput = document.getElementById("noteTitle");
+    const textInput = document.getElementById("noteInput");
+    const passwordInput = document.getElementById("notePassword");
+    const saveBtn = document.getElementById("saveNoteBtn");
+    const linkOutput = document.getElementById("noteLink");
+
+    saveBtn.addEventListener("click", () => {
+      const title = titleInput.value.trim();
+      const content = textInput.value.trim();
+      const password = passwordInput.value;
+
+      if (!title || !content) {
+        alert("Vui lòng nhập tên và nội dung ghi chú.");
         return;
       }
-      const noteId = 'note-' + Math.random().toString(36).substr(2, 6);
-      localStorage.setItem(noteId, content);
-      const url = location.origin + location.pathname + '#' + noteId;
-      document.getElementById('noteLink').innerHTML = `
+
+      const noteId = "note-" + btoa(unescape(encodeURIComponent(title))).replace(/=/g, "");
+      const data = { content, password };
+
+      localStorage.setItem(noteId, JSON.stringify(data));
+
+      const url = `${location.origin}${location.pathname}#${noteId}`;
+      linkOutput.innerHTML = `
         ✅ Ghi chú đã lưu!<br/>
         <input value="${url}" onclick="this.select()" readonly />
       `;
     });
 
-    window.addEventListener('load', () => {
-      const hash = location.hash.replace('#', '');
-      if (hash.startsWith('note-')) {
-        const content = localStorage.getItem(hash);
-        if (content) {
-          document.getElementById('noteInput').value = content;
-          document.getElementById('noteLink').innerHTML = `🔁 Đang xem ghi chú: ${hash}`;
+    // Chế độ xem ghi chú (readonly)
+    window.addEventListener("load", () => {
+      const hash = location.hash.replace("#", "");
+      if (hash.startsWith("note-")) {
+        const saved = localStorage.getItem(hash);
+        if (!saved) {
+          alert("Ghi chú không tồn tại.");
+          return;
         }
+
+        const data = JSON.parse(saved);
+        const requiresPassword = data.password?.length > 0;
+
+        if (requiresPassword) {
+          const entered = prompt("Nhập mật khẩu để xem ghi chú:");
+          if (entered !== data.password) {
+            alert("Sai mật khẩu.");
+            return;
+          }
+        }
+
+        titleInput.value = decodeURIComponent(escape(atob(hash.replace("note-", ""))));
+        textInput.value = data.content;
+
+        // Ẩn khả năng chỉnh sửa
+        titleInput.readOnly = true;
+        textInput.readOnly = true;
+        passwordInput.style.display = "none";
+        saveBtn.style.display = "none";
+        linkOutput.innerHTML = "🔒 Chế độ chỉ xem ghi chú.";
       }
     });
   </script>
