@@ -158,10 +158,15 @@
     }
 
     #menuToggle {
-      font-size: 2em;
-      background: none;
+      font-size: 0.9em;
+      padding: 10px;
+      background: linear-gradient(45deg, #39ff14, #00f0ff);
       border: none;
-      color: #39ff14;
+      border-radius: 50%;
+      color: #0d1117;
+      font-weight: bold;
+      width: 60px;
+      height: 60px;
       cursor: pointer;
     }
 
@@ -177,9 +182,10 @@
 
     #menuContainer {
       position: fixed;
-      bottom: 20px;
+      top: 20px;
       left: 20px;
       z-index: 1000;
+      text-align: center;
     }
 
     #dropdownMenu a:last-child {
@@ -190,9 +196,9 @@
 <body>
   <div id="particles-js"></div>
 
-  <!-- MENU BA CHẤM GÓC DƯỚI TRÁI -->
+  <!-- MENU HÌNH TRÒN CHỮ “MENU” Ở GÓC TRÊN TRÁI -->
   <div id="menuContainer">
-    <button id="menuToggle">⋮</button>
+    <button id="menuToggle">Menu</button>
     <div id="dropdownMenu">
       <a href="https://www.facebook.com/s2code08122000?mibextid=wwXIfr" target="_blank" class="btn">Facebook 1</a>
       <a href="https://www.facebook.com/share/15ERMDr9kR/?mibextid=wwXIfr" target="_blank" class="btn">Facebook 2</a>
@@ -237,7 +243,7 @@
       }
     });
 
-    // Toggle dropdown
+    // Toggle dropdown menu
     document.getElementById('menuToggle').addEventListener('click', function () {
       const menu = document.getElementById('dropdownMenu');
       menu.style.display = (menu.style.display === 'none' || menu.style.display === '') ? 'block' : 'none';
