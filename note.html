@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Tạo ghi chú</title>
+  <title>Ghi chú nâng cao</title>
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
   <style>
     body {
@@ -19,7 +19,7 @@
       color: #39ff14;
       text-shadow: 0 0 10px #39ff14;
     }
-    input, textarea {
+    input, select {
       width: 100%;
       max-width: 600px;
       background: #161b22;
@@ -29,6 +29,38 @@
       border-radius: 10px;
       margin-top: 10px;
       font-family: monospace;
+    }
+    .toolbar {
+      margin-top: 10px;
+      max-width: 600px;
+      width: 100%;
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .toolbar button {
+      padding: 6px 10px;
+      background: #161b22;
+      border: 1px solid #39ff14;
+      color: #39ff14;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    .toolbar button:hover {
+      background: #21262d;
+    }
+    #noteEditor {
+      width: 100%;
+      max-width: 600px;
+      height: 250px;
+      margin-top: 10px;
+      background: #161b22;
+      border: 1px solid #39ff14;
+      padding: 10px;
+      border-radius: 10px;
+      overflow-y: auto;
+      color: #c9d1d9;
     }
     .btn {
       margin-top: 15px;
@@ -56,25 +88,56 @@
   </style>
 </head>
 <body>
-  <h1>📝 Tạo Ghi Chú</h1>
+  <h1>📝 Ghi chú nâng cao</h1>
 
-  <input type="text" id="noteTitle" placeholder="Nhập tên ghi chú" required />
-  <textarea id="noteInput" rows="6" placeholder="Nhập nội dung ghi chú..."></textarea>
+  <input type="text" id="noteTitle" placeholder="Nhập tên ghi chú" />
   <input type="password" id="notePassword" placeholder="Mật khẩu (không bắt buộc)" />
+
+  <div class="toolbar">
+    <button onclick="execCmd('bold')">B</button>
+    <button onclick="execCmd('italic')">I</button>
+    <button onclick="execCmd('underline')">U</button>
+    <button onclick="execCmd('insertImage')">🖼️</button>
+    <select onchange="execCmd('fontName', this.value)">
+      <option value="">Font</option>
+      <option value="monospace">Monospace</option>
+      <option value="serif">Serif</option>
+      <option value="sans-serif">Sans</option>
+    </select>
+    <select onchange="execCmd('fontSize', this.value)">
+      <option value="">Cỡ</option>
+      <option value="1">1</option>
+      <option value="2">2</option>
+      <option value="3">3</option>
+      <option value="4">4</option>
+      <option value="5">5</option>
+    </select>
+  </div>
+
+  <div id="noteEditor" contenteditable="true" placeholder="Nhập nội dung..."></div>
 
   <button class="btn" id="saveNoteBtn">Lưu ghi chú</button>
   <div id="noteLink"></div>
 
   <script>
+    function execCmd(command, value = null) {
+      if (command === 'insertImage') {
+        const url = prompt("Nhập URL ảnh:");
+        if (url) document.execCommand(command, false, url);
+      } else {
+        document.execCommand(command, false, value);
+      }
+    }
+
     const titleInput = document.getElementById("noteTitle");
-    const textInput = document.getElementById("noteInput");
+    const editor = document.getElementById("noteEditor");
     const passwordInput = document.getElementById("notePassword");
     const saveBtn = document.getElementById("saveNoteBtn");
     const linkOutput = document.getElementById("noteLink");
 
     saveBtn.addEventListener("click", () => {
       const title = titleInput.value.trim();
-      const content = textInput.value.trim();
+      const content = editor.innerHTML.trim();
       const password = passwordInput.value;
 
       if (!title || !content) {
@@ -94,7 +157,6 @@
       `;
     });
 
-    // Chế độ xem ghi chú (readonly)
     window.addEventListener("load", () => {
       const hash = location.hash.replace("#", "");
       if (hash.startsWith("note-")) {
@@ -116,11 +178,10 @@
         }
 
         titleInput.value = decodeURIComponent(escape(atob(hash.replace("note-", ""))));
-        textInput.value = data.content;
+        editor.innerHTML = data.content;
 
-        // Ẩn khả năng chỉnh sửa
         titleInput.readOnly = true;
-        textInput.readOnly = true;
+        editor.contentEditable = false;
         passwordInput.style.display = "none";
         saveBtn.style.display = "none";
         linkOutput.innerHTML = "🔒 Chế độ chỉ xem ghi chú.";
