@@ -1,2 +1,0 @@
-nohup: ignoring input
-✅ Server đang chạy tại http://0.0.0.0:6969
